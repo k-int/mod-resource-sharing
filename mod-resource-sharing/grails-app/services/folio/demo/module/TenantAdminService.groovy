@@ -51,6 +51,21 @@ class TenantAdminService {
     }
   }
 
+  void dropTenant(String tenantId) {
+    Sql sql = null
+    String schema_name = tenantId+SCHEMA_SUFFIX;
+    try {
+        sql = new Sql(dataSource as DataSource)
+        sql.withTransaction {
+            sql.execute("drop schema ${schema_name} cascade" as String)
+        }
+    } finally {
+        sql?.close()
+    }
+  }
+
+
+
   void freshenAllTenantSchemas() {
 
     log.debug("freshenAllTenantSchemas()");

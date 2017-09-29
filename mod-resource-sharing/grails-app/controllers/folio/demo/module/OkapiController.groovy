@@ -35,6 +35,8 @@ class OkapiController {
           break;
         case 'DELETE':
           log.debug("Request to destroy tenant -- hanging fire here");
+          // This is well risqe, but it actually suits our functional test framework ;)
+          tenantAdminService.dropTenant(tenant_id);
           break;
         default:
           log.warn("Unhandled verb ${request.method} for module /_/tenant endpoint");
