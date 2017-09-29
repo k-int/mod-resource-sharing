@@ -17,7 +17,7 @@ import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
 
 class TenantAdminService {
 
-  final static String SCHEMA_SUFFIX = '_grails_demo_module'
+  final static String SCHEMA_SUFFIX = '_mod_resource_sharing'
 
   def hibernateDatastore
   def dataSource
@@ -26,11 +26,12 @@ class TenantAdminService {
 
       String new_schema_name = tenantId+SCHEMA_SUFFIX;
       try {
+        log.debug("See if we already have a datastore for ${new_schema_name}");
         hibernateDatastore.getDatastoreForConnection(new_schema_name)
         log.debug("Module already registered for tenant");
       }
       catch ( org.grails.datastore.mapping.core.exceptions.ConfigurationException ce ) {
-        log.debug("register module for tenant");
+        log.debug("register module for tenant/schema (${tenantId}/${new_schema_name})");
         createAccountSchema(new_schema_name);
         updateAccountSchema(new_schema_name);
 
@@ -45,15 +46,15 @@ class TenantAdminService {
         sql.withTransaction {
             sql.execute("create schema ${tenantId}" as String)
         }
-    } catch (Exception e) {
-        log.error("Unable to create schema for tenant $tenantId", e)
-        throw e
     } finally {
         sql?.close()
     }
   }
 
   void freshenAllTenantSchemas() {
+
+    log.debug("freshenAllTenantSchemas()");
+
     ResultSet schemas = dataSource.getConnectio().getMetaData().getSchemas()
     while(schemas.next()) {
       String schema_name = schemas.getString("TABLE_SCHEM")
@@ -80,7 +81,10 @@ class TenantAdminService {
 
   }
 
-  void updateAccountSchema(String tenantId) {
+  void updateAccountSchema(String schema_name) {
+
+    log.debug("updateAccountSchema(${schema_name})");
+
     def applicationContext = grails.util.Holders.applicationContext
 
     // Now try create the tables for the schema
@@ -91,19 +95,19 @@ class TenantAdminService {
       gl.changeLog = 'module-tenant-changelog.groovy'
       gl.contexts = []
       gl.labels = []
-      gl.defaultSchema = tenantId
+      gl.defaultSchema = schema_name
       gl.databaseChangeLogTableName = 'grails_demo_folio_module_tenant_changelog'
       gl.databaseChangeLogLockTableName = 'grails_demo_folio_module_tenant_changelog_lock'
       gl.afterPropertiesSet() // this runs the update command
     } catch (Exception e) {
-        log.error("Exception trying to create new account schema tables for $tenantId", e)
+        log.error("Exception trying to create new account schema tables for $schema_name", e)
         throw e
     }
 
     try {
-      hibernateDatastore.addTenantForSchema(tenantId)
+      hibernateDatastore.addTenantForSchema(schema_name)
     } catch (Exception e) {
-      log.error("Exception adding tenant schema for ${tenantId}", e)
+      log.error("Exception adding tenant schema for ${schema_name}", e)
       throw e
     }
   }

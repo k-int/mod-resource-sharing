@@ -22,7 +22,9 @@ class OkapiController {
 
   // GET And DELETE verbs with header X-Okapi-Tenant indicate activation of this module for a given tenant.
   def tenant() {
-    String tenant_id = request.getHeader('X-Okapi-Tenant')
+
+    String tenant_id = request.getHeader('X-Okapi-Tenant')?.toLowerCase()
+
     log.info("OkapiController::tenant ${request.method} ${params} ${tenant_id}");
     def result = [:]
     if ( tenant_id && tenant_id.trim().length() > 0 ) {

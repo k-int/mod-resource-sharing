@@ -40,7 +40,7 @@ class OkapiSchemaHandler implements SchemaHandler {
 
     @Override
     void useSchema(Connection connection, String name) {
-        log.debug("useSchema");
+        // log.debug("useSchema");
         String useStatement = String.format(useSchemaStatement, name)
         log.debug("Executing SQL Set Schema Statement: ${useStatement}")
         
@@ -70,19 +70,19 @@ class OkapiSchemaHandler implements SchemaHandler {
           throw e
         }
 
-        log.debug("useSchema completed OK");
+        // log.debug("useSchema completed OK");
     }
 
     @Override
     void useDefaultSchema(Connection connection) {
-        log.debug("useDefaultSchema");
+        // log.debug("useDefaultSchema");
         useSchema(connection, defaultSchemaName)
     }
 
     @Override
     void createSchema(Connection connection, String name) {
         String schemaCreateStatement = String.format(createSchemaStatement, name)
-        log.debug("Executing SQL Create Schema Statement: ${schemaCreateStatement}")
+        // log.debug("Executing SQL Create Schema Statement: ${schemaCreateStatement}")
         connection
                 .createStatement()
                 .execute(schemaCreateStatement)
@@ -92,7 +92,7 @@ class OkapiSchemaHandler implements SchemaHandler {
     Collection<String> resolveSchemaNames(DataSource dataSource) {
         // If this is called by HibernateDatastore.java then the next step will be for the
         // addTenantForSchemaInternal method to be called for this db
-        log.debug("OkapiSchemaHandler::resolveSchemaNames called")
+        // log.debug("OkapiSchemaHandler::resolveSchemaNames called")
         Collection<String> schemaNames = []
         Connection connection = dataSource.getConnection()
         try {
@@ -103,7 +103,11 @@ class OkapiSchemaHandler implements SchemaHandler {
           while(schemas.next()) {
             String schema_name = schemas.getString("TABLE_SCHEM")
             if ( schema_name.endsWith(SCHEMA_SUFFIX) ) {
+              // log.debug('resolveSchemaNames adding schema for '+schema_name);
               schemaNames.add(schema_name)
+            }
+            else {
+              // log.debug('resolveSchemaNames skipping '+schema_name);
             }
           }
         } finally {
