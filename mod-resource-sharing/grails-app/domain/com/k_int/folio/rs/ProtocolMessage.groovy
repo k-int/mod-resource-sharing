@@ -1,11 +1,13 @@
 package com.k_int.folio.rs
 
+import grails.gorm.MultiTenant;
+
 /**
  * A specific instance of a protocol message passed between 2 parties acting in the role of requester and responder.
  * A message is an action that will cause a transition between 2 protocol states (Tho they can be the same state)
  * this object records the detail of the message.
  */
-class ProtocolMessage {
+class ProtocolMessage  implements MultiTenant<ProtocolMessage> {
 
   Date messageTimestamp
   boolean valid

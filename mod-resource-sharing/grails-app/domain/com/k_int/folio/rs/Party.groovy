@@ -1,6 +1,8 @@
 package com.k_int.folio.rs
 
-class Party {
+import grails.gorm.MultiTenant;
+
+class Party  implements MultiTenant<Party> {
 
   String name
 

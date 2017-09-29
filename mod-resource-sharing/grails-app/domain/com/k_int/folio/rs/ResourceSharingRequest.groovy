@@ -1,12 +1,15 @@
 package com.k_int.folio.rs
 
+import grails.gorm.MultiTenant;
+
+
 /**
  * A request made to the library from a patron or other system user that the library
  * source an item not currently available in inventory.
  * This class holds the details the patron has given to the library to help locate and request
  * said item.
  */
-class ResourceSharingRequest {
+class ResourceSharingRequest  implements MultiTenant<ResourceSharingRequest> {
 
   String itemType  // monograph, serial, other
   String heldMediumType 

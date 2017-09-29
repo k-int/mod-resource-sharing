@@ -1,6 +1,9 @@
 package com.k_int.folio.rs
 
-class Transition {
+import grails.gorm.MultiTenant;
+
+
+class Transition  implements MultiTenant<Transition> {
 
   State to
   State from

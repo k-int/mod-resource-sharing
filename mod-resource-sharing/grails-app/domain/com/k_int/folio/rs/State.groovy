@@ -1,6 +1,9 @@
 package com.k_int.folio.rs
 
-class State {
+import grails.gorm.MultiTenant;
+
+
+class State  implements MultiTenant<State> {
 
   String code
   String description

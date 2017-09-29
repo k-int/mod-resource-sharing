@@ -1,6 +1,8 @@
 package com.k_int.folio.rs
 
-class Protocol {
+import grails.gorm.MultiTenant;
+
+class Protocol  implements MultiTenant<Protocol> {
 
   String code
   String description

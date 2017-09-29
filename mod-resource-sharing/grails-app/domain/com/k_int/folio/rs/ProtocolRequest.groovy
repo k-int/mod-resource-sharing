@@ -1,5 +1,8 @@
 package com.k_int.folio.rs
 
+import grails.gorm.MultiTenant;
+
+
 
 /**
  * A single conversation with a remote service to try and negotiate the supply of a described item.
@@ -7,7 +10,7 @@ package com.k_int.folio.rs
  * moving down the rota until we reach a partner able to supply. For incoming requests, the ProtocolRequest
  * stands alone and tracks our activity responding to such requests.
  */
-class ProtocolRequest {
+class ProtocolRequest  implements MultiTenant<ProtocolRequest> {
 
   String role  // "REQUESTER" or "RESPONDER"
 
