@@ -12,6 +12,8 @@ import grails.gorm.MultiTenant;
  */
 class ProtocolRequest  implements MultiTenant<ProtocolRequest> {
 
+  String id
+
   String role  // "REQUESTER" or "RESPONDER"
 
   // rotaSequence is only used for "REQUESTER" role - it represents the position of THIS 
@@ -36,4 +38,15 @@ class ProtocolRequest  implements MultiTenant<ProtocolRequest> {
     request(nullable:false, blank:false)
     partnerService(nullable:false, blank:false)
   }
+
+  static mapping = {
+    table 'rs_protocol_request'
+    id(column:'pr_id', generator: 'uuid')
+            role column:'pr_role'
+    rotaSequence column:'pr_rota_seq'
+         service column:'pr_service_fk'
+    currentState column:'pr_current_state_fk'
+           owner column:'pr_owner_rsr_fk'
+  }
+
 }

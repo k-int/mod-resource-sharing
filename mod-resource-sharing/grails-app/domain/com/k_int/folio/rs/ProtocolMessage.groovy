@@ -9,6 +9,7 @@ import grails.gorm.MultiTenant;
  */
 class ProtocolMessage  implements MultiTenant<ProtocolMessage> {
 
+  String id
   Date messageTimestamp
   boolean valid
   String messageContent
@@ -26,4 +27,15 @@ class ProtocolMessage  implements MultiTenant<ProtocolMessage> {
     transition(nullable:true, blank:false)
     messageContent(nullable:true, blank:false)
   }
+
+  static mapping = {
+    table 'rs_protocol_message'
+    id(column:'pm_id', generator: 'uuid')
+    messageTimestamp column:'pm_message_timestamp'
+               valid column:'pm_valid'
+      messageContent column:'pm_message_content'
+          transition column:'pm_transition'
+               owner column:'pm_owner_id'
+  }
+
 }

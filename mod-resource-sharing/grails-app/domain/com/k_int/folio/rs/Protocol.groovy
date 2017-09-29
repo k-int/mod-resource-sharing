@@ -4,6 +4,7 @@ import grails.gorm.MultiTenant;
 
 class Protocol  implements MultiTenant<Protocol> {
 
+  String id
   String code
   String description
 
@@ -11,4 +12,12 @@ class Protocol  implements MultiTenant<Protocol> {
     code(nullable:false, blank:false);
     description(nullable:true, blank:false);
   }
+
+  static mapping = {
+    table 'rs_protocol'
+    id(column:'prot_id', generator: 'uuid')
+    code column:'prot_code'
+    description column:'prot_description'
+  }
+
 }

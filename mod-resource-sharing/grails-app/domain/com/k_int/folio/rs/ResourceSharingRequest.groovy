@@ -11,6 +11,7 @@ import grails.gorm.MultiTenant;
  */
 class ResourceSharingRequest  implements MultiTenant<ResourceSharingRequest> {
 
+  String id
   String itemType  // monograph, serial, other
   String heldMediumType 
   String callNumber
@@ -77,4 +78,38 @@ class ResourceSharingRequest  implements MultiTenant<ResourceSharingRequest> {
     currentServiceRequest(nullable:true, blank:false)
     patronId(nullable:false, blank:false)
   }
+
+  static mapping = {
+    table 'rs_req'
+    id(column:'rsr_id', generator: 'uuid')
+
+                       itemType column:'rs_item_type'
+                 heldMediumType column:'rs_held_medium_type'
+                     callNumber column:'rs_call_number'
+                         author column:'rs_author'
+                          title column:'rs_title'
+                       subTitle column:'rs_sub_title'
+                 sponsoringBody column:'rs_sponsoring_body'
+             placeOfPublication column:'rs_place_of_pub'
+                      publisher column:'rs_publisher'
+              seriesTitleNumber column:'rs_series_title_no'
+                         volume column:'rs_volume'
+                          issue column:'rs_issue'
+                        edition column:'rs_edition'
+                publicationDate column:'rs_pubdate'
+     publicationDateOfComponent column:'rs_pubdate_component'
+                authorOfArticle column:'rs_author_article'
+                 titleOfArticle column:'rs_title_article'
+                     pagination column:'rs_pagination'
+                  nationalBibNo column:'rs_nat_bib_no'
+                           isbn column:'rs_isbn'
+                           issn column:'rs_issn'
+                       systemNo column:'rs_sysno'
+            additionalNoLetters column:'rs_add_no_let'
+    verificationReferenceSource column:'rs_verif_src'
+
+          currentServiceRequest column:'rs_current_service_fk'
+                       patronId column:'rs_patron_id'
+  }
+
 }

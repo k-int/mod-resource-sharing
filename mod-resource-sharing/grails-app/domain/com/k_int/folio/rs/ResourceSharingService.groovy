@@ -5,6 +5,17 @@ import grails.gorm.MultiTenant;
 
 class ResourceSharingService  implements MultiTenant<ResourceSharingService> {
 
-    static constraints = {
-    }
+  String id
+  String symbol
+
+  static constraints = {
+    symbol(nullable:true, blank:false)
+  }
+
+  static mapping = {
+    table 'rs_service'
+    id(column:'rss_id', generator: 'uuid')
+    symbol column:'rss_sumbol'
+  }
+
 }
