@@ -2,6 +2,10 @@ package com.k_int.folio.rs
 
 class Transition {
 
-    static constraints = {
-    }
+  State to
+  State from
+  ProtocolAction action
+
+  static constraints = {
+  }
 }
