@@ -1,5 +1,11 @@
 package com.k_int.folio.rs
 
+/**
+ * A request made to the library from a patron or other system user that the library
+ * source an item not currently available in inventory.
+ * This class holds the details the patron has given to the library to help locate and request
+ * said item.
+ */
 class ResourceSharingRequest {
 
   String itemType  // monograph, serial, other
@@ -27,15 +33,17 @@ class ResourceSharingRequest {
   String additionalNoLetters
   String verificationReferenceSource
 
-  RotaEntry currentServiceRequest
+  String patronId
+
+  ProtocolRequest currentServiceRequest
 
   // rota is a simple set, but will be orderd by the rotaSequence element to allow easy reordering
   static hasMany = [
-    RotaEntry:rota
+    ProtocolRequest:rota
   ]
 
   static mappedBy = [
-    RotaEntry:'request'
+    ProtocolRequest:'request'
   ]
 
   static constraints = {
@@ -64,5 +72,6 @@ class ResourceSharingRequest {
     additionalNoLetters(nullable:true, blank:false)
     verificationReferenceSource(nullable:true, blank:false)
     currentServiceRequest(nullable:true, blank:false)
+    patronId(nullable:false, blank:false)
   }
 }
