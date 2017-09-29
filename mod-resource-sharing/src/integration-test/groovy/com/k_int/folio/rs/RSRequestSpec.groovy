@@ -19,6 +19,8 @@ class RSRequestSpec extends GebSpec {
     def cleanup() {
     }
 
+
+    // Set up a new tenant called RSTestTenant
     void "Set up test tenant"() {
         when:"We post a new tenant request to the OKAPI controller"
             def resp = restBuilder().post("$baseUrl/_/tenant") {
@@ -31,7 +33,7 @@ class RSRequestSpec extends GebSpec {
             // resp.json.message == 'Welcome to Grails!'
     }
 
-    void "Destroy test tenant"() {
+    void "Delete the tenant"() {
         when:"We post a delete request to the OKAPI controller"
             def resp = restBuilder().delete("$baseUrl/_/tenant") {
               header 'X-Okapi-Tenant', 'RSTestTenant'

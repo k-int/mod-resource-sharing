@@ -111,12 +111,15 @@ class TenantAdminService {
       gl.contexts = []
       gl.labels = []
       gl.defaultSchema = schema_name
-      gl.databaseChangeLogTableName = 'grails_demo_folio_module_tenant_changelog'
-      gl.databaseChangeLogLockTableName = 'grails_demo_folio_module_tenant_changelog_lock'
+      gl.databaseChangeLogTableName = 'mod_resource_sharing_tenant_changelog'
+      gl.databaseChangeLogLockTableName = 'mod_resource_sharing_tenant_changelog_lock'
       gl.afterPropertiesSet() // this runs the update command
     } catch (Exception e) {
-        log.error("Exception trying to create new account schema tables for $schema_name", e)
-        throw e
+      log.error("Exception trying to create new account schema tables for $schema_name", e)
+      throw e
+    }
+    finally {
+      log.debug("Database migration completed");
     }
 
     try {
@@ -124,6 +127,9 @@ class TenantAdminService {
     } catch (Exception e) {
       log.error("Exception adding tenant schema for ${schema_name}", e)
       throw e
+    }
+    finally {
+      log.debug("added schema");
     }
   }
 
