@@ -5,7 +5,7 @@ testsection:
 grails:
     profile: rest-api
     codegen:
-        defaultPackage: folio.demo.module
+        defaultPackage: com.k_int.folio.rs
     spring:
         transactionManagement:
             proxies: false
