@@ -46,7 +46,7 @@ class ResourceSharingRequest  implements MultiTenant<ResourceSharingRequest> {
   ]
 
   static mappedBy = [
-    rota:'request'
+    rota:'owner'
   ]
 
   static constraints = {
