@@ -33,6 +33,23 @@ class RSRequestSpec extends GebSpec {
             // resp.json.message == 'Welcome to Grails!'
     }
 
+    void "Set up some test locations"(code,name) {
+      expect:
+        def resp = restBuilder().post("$baseUrl/locations") {
+          header 'X-Okapi-Tenant', 'RSTestTenant'
+          contentType "application/json"
+          json code: code, name: name
+        }
+        resp.status == OK.value()
+
+      // Use a GEB Data Table to load each record
+      where:
+        code | name
+        'croo' | 'Crookes community library'
+        'stan' | 'Stannington Library'
+        'upper' | 'Upperthorpe Library'
+    }
+
     void "Delete the tenant"() {
         when:"We post a delete request to the OKAPI controller"
             def resp = restBuilder().delete("$baseUrl/_/tenant") {

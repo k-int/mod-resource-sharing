@@ -32,10 +32,10 @@ class OkapiTenantResolver implements TenantResolver {
         if(requestAttributes instanceof ServletWebRequest) {
 
             HttpServletRequest httpServletRequest = ((ServletWebRequest) requestAttributes).getRequest()
-            String tenantId = httpServletRequest.getHeader(headerName.toLowerCase())
+            String tenantId = httpServletRequest.getHeader(headerName.toLowerCase())?.toLowerCase()
 
             if ( tenantId ) {
-                return tenantId+'_mod_resource_sharing'.toLowerCase();
+                return tenantId+'_mod_resource_sharing'
             }
             throw new TenantNotFoundException("Tenant could not be resolved from HTTP Header: ${headerName}")
         }

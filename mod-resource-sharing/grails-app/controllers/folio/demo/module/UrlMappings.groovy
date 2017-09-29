@@ -15,5 +15,11 @@ class UrlMappings {
         "404"(view: '/notFound')
 
         "/_/tenant"(controller: 'okapi', action:'tenant')
+
+        '/locations'(resources: 'party') {
+          collection {
+            '/search'(controller: 'location', action: 'search')
+          }
+        }
     }
 }
