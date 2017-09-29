@@ -39,11 +39,11 @@ class ResourceSharingRequest {
 
   // rota is a simple set, but will be orderd by the rotaSequence element to allow easy reordering
   static hasMany = [
-    ProtocolRequest:rota
+    rota:ProtocolRequest
   ]
 
   static mappedBy = [
-    ProtocolRequest:'request'
+    rota:'request'
   ]
 
   static constraints = {

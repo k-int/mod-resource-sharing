@@ -22,7 +22,7 @@ class ProtocolRequest {
   State currentState
 
   static belongsTo = [
-    request:ResourceSharingRequest;
+    owner:ResourceSharingRequest
   ]
 
   static constraints = {
