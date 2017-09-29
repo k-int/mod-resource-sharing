@@ -1,0 +1,10 @@
+{
+  "stateModelId":"mod-rs-rota",
+  "transitions":[
+    [ "IDLE", "START", "IN-PROCESS", "New Request, not yet started" ],
+    [ "IDLE", "ABORT", "NOT-SUPPLIED", "New Request, aborted" ],
+    [ "IN-PROCESS", "NOT-SUPPLIED", "END-OF-ROTA", "Current supplier cannot supply, reached end of rota" ],
+    [ "IN-PROCESS", "NOT-SUPPLIED", "IN-PROCESS", "Current supplier cannot supply, move to next on rota" ],
+    [ "IN-PROCESS", "SUPPLIED", "COMPLETE", "Current supplier will supply - complete" ]
+  ]
+}
