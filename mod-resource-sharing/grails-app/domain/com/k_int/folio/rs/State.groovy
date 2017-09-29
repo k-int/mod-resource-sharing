@@ -20,7 +20,7 @@ class State  implements MultiTenant<State> {
 
   static mapping = {
     table 'rs_state'
-    id(column:'rss_id', generator: 'uuid')
+    id(column:'rss_id', generator: 'uuid', length:36)
     code column:'rss_code'
     description column:'rss_descr'
     owner column:'rss_owner_sm_fk'

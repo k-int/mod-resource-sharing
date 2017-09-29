@@ -22,7 +22,7 @@ class Party  implements MultiTenant<Party> {
 
   static mapping = {
     table 'rs_party'
-    id(column:'pty_id', generator: 'uuid')
+    id(column:'pty_id', generator: 'uuid', length:36)
     name column:'pty_name'
   }
 

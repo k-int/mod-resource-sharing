@@ -16,7 +16,7 @@ class StateModel  implements MultiTenant<StateModel> {
 
   static mapping = {
     table 'rs_state_model'
-    id(column:'rssm_id', generator: 'uuid')
+    id(column:'rssm_id', generator: 'uuid', length:36)
     code column:'rssm_code'
     description column:'rssm_descr'
   }

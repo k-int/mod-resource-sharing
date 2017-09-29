@@ -15,7 +15,7 @@ class Protocol  implements MultiTenant<Protocol> {
 
   static mapping = {
     table 'rs_protocol'
-    id(column:'prot_id', generator: 'uuid')
+    id(column:'prot_id', generator: 'uuid', length:36)
     code column:'prot_code'
     description column:'prot_description'
   }

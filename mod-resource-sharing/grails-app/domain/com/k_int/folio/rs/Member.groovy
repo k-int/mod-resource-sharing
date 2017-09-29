@@ -15,7 +15,7 @@ class Member implements MultiTenant<Member> {
 
   static mapping = {
     table 'rs_resource'
-    id(column:'rs_id', generator: 'uuid')
+    id(column:'rs_id', generator: 'uuid', length:36)
     owner column:'rs_owner_party_fk'
     member column:'rs_member_party_fk'
   }

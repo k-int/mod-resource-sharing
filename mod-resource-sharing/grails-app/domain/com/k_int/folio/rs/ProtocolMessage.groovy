@@ -30,7 +30,7 @@ class ProtocolMessage  implements MultiTenant<ProtocolMessage> {
 
   static mapping = {
     table 'rs_protocol_message'
-    id(column:'pm_id', generator: 'uuid')
+    id(column:'pm_id', generator: 'uuid', length:36)
     messageTimestamp column:'pm_message_timestamp'
                valid column:'pm_valid'
       messageContent column:'pm_message_content'

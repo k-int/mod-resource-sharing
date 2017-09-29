@@ -41,7 +41,7 @@ class ProtocolRequest  implements MultiTenant<ProtocolRequest> {
 
   static mapping = {
     table 'rs_protocol_request'
-    id(column:'pr_id', generator: 'uuid')
+    id(column:'pr_id', generator: 'uuid', length:36)
             role column:'pr_role'
     rotaSequence column:'pr_rota_seq'
          service column:'pr_service_fk'

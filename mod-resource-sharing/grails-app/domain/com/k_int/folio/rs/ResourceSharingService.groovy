@@ -14,7 +14,7 @@ class ResourceSharingService  implements MultiTenant<ResourceSharingService> {
 
   static mapping = {
     table 'rs_service'
-    id(column:'rss_id', generator: 'uuid')
+    id(column:'rss_id', generator: 'uuid', length:36)
     symbol column:'rss_sumbol'
   }
 

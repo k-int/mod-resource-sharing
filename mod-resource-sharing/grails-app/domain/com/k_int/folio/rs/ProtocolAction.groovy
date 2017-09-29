@@ -19,7 +19,7 @@ class ProtocolAction  implements MultiTenant<ProtocolAction> {
 
   static mapping = {
     table 'rs_protocol_action'
-    id(column:'pa_id', generator: 'uuid')
+    id(column:'pa_id', generator: 'uuid', length:36)
     code column:'pa_code'
     description column:'pa_description'
   }

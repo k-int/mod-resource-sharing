@@ -15,7 +15,7 @@ class Transition  implements MultiTenant<Transition> {
 
   static mapping = {
     table 'rs_transition'
-    id(column:'rst_id', generator: 'uuid')
+    id(column:'rst_id', generator: 'uuid', length:36)
     to column:'rst_to_state_fk'
     from column:'rst_from_state_fk'
     action column:'rst_action_fk'
