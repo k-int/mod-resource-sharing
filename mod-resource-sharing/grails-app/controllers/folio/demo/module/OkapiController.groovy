@@ -29,7 +29,7 @@ class OkapiController {
       switch ( request.method ) {
         case 'GET':
         case 'POST':
-          tenantAdminService.createTenant();
+          tenantAdminService.createTenant(tenant_id);
           break;
         case 'DELETE':
           log.debug("Request to destroy tenant -- hanging fire here");
@@ -40,7 +40,7 @@ class OkapiController {
       }
     }
     else {
-      log.error("No X-Okapi-Tenant header");
+      throw new RuntimeException("No X-Okapi-Tenant header");
     }
 
     render result as JSON
