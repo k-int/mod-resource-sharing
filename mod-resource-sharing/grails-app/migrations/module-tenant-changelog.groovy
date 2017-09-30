@@ -10,6 +10,10 @@ databaseChangeLog = {
                 constraints(nullable: "false")
             }
 
+            column(name: "pty_code", type: "VARCHAR(255)") {
+                constraints(nullable: "false")
+            }
+
             column(name: "pty_name", type: "VARCHAR(255)") {
                 constraints(nullable: "false")
             }

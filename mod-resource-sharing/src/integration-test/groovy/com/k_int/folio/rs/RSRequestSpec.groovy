@@ -10,7 +10,7 @@ import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
 
 @Integration
-@Rollback
+// @Rollback
 class RSRequestSpec extends GebSpec {
 
     def setup() {
@@ -35,12 +35,16 @@ class RSRequestSpec extends GebSpec {
 
     void "Set up some test locations"(code,name) {
       expect:
+
+        def json_location = [ 'code' : code, 'name' : name ]
         def resp = restBuilder().post("$baseUrl/locations") {
           header 'X-Okapi-Tenant', 'RSTestTenant'
-          contentType "application/json"
-          json code: code, name: name
+          contentType 'application/json'
+          json json_location
         }
-        resp.status == OK.value()
+        System.err.println("RESPONSE:: ${resp.json}");
+        resp.status == CREATED.value()
+        
 
       // Use a GEB Data Table to load each record
       where:

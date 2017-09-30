@@ -2,9 +2,12 @@ package com.k_int.folio.rs
 
 import grails.gorm.MultiTenant;
 
+import grails.rest.Resource
+
 class Party  implements MultiTenant<Party> {
 
   String id
+  String code
   String name
 
   static hasMany = [
@@ -24,6 +27,7 @@ class Party  implements MultiTenant<Party> {
     table 'rs_party'
     id(column:'pty_id', generator: 'uuid', length:36)
     name column:'pty_name'
+    code column:'pty_code'
   }
 
 }

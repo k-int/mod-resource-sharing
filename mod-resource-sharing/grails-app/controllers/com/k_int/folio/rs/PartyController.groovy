@@ -7,7 +7,7 @@ import grails.gorm.multitenancy.CurrentTenant
 
 class PartyController extends RestfulController {
 
-	static responseFormats = ['json', 'xml']
+  static responseFormats = ['json', 'xml']
 
   PartyController() {
     super(Party)
@@ -17,6 +17,10 @@ class PartyController extends RestfulController {
   def save() {
     log.debug("PartyController::save ${params} ${request.JSON}");
     super.save();
+  }
+
+  def getObjectToBind() {
+    return request.JSON
   }
 
   @CurrentTenant
