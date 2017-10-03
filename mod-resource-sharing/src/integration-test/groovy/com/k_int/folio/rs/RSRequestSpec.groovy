@@ -67,13 +67,21 @@ class RSRequestSpec extends GebSpec {
         patronId:'1234-5678-1234-5533-4545'
       ]
 
-      def resp = restBuilder().post("$baseUrl/locations") {
+      def resp = restBuilder().post("$baseUrl/requests") {
         header 'X-Okapi-Tenant', 'RSTestTenant'
         contentType 'application/json'
         json request_details
       }
       System.err.println("RESPONSE:: ${resp.json}");
       resp.status == CREATED.value()
+    }
+
+    void "User fred lists his requests"() {
+      def resp = restBuilder().get("$baseUrl/requests/search?q=1234-5678-1234-5533-4545") {
+        header 'X-Okapi-Tenant', 'RSTestTenant'
+      }
+      resp.status == OK.value()
+
     }
 
     void "Delete the tenant"() {
