@@ -87,5 +87,20 @@ task generateDescriptors(type:Copy) {
   }
 }
 
+grails {
+	plugins {
+	  // Local Web Toolkit project.
+	  println "Looking for the Web-Toolkit plugin..."
+	  def wtp = parent?.subprojects?.find {
+  		if (it.name == "kint-web-toolkit") {
+  		  compile it
+  		  println "\tfound locally at ${it.projectDir}"
+  		  return true
+  		}
+  		false
+	  }
+	}
+}
+
 build.dependsOn generateDescriptors 
 war.dependsOn generateDescriptors 
