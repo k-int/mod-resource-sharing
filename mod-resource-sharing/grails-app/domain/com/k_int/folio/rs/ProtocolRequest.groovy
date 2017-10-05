@@ -35,8 +35,6 @@ class ProtocolRequest  implements MultiTenant<ProtocolRequest> {
     rotaSequence(nullable:true, blank:false)
     service(nullable:false, blank:false)
     currentState(nullable:false, blank:false)
-    request(nullable:false, blank:false)
-    partnerService(nullable:false, blank:false)
   }
 
   static mapping = {
