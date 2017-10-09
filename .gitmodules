@@ -1,3 +1,7 @@
 [submodule "kint-web-toolkit"]
 	path = kint-web-toolkit
 	url = git@github.com:k-int/web-toolkit.git
+
+[submodule "ui-stripes"]
+	path = ui-stripes
+	url = git@github.com:k-int/mod-resource-sharing-stripes.git
