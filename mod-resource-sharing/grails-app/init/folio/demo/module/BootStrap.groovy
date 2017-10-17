@@ -12,6 +12,10 @@ class BootStrap {
 
   def init = { servletContext ->
     log.debug("Reporting config from folio_globals.yaml: ${grailsApplication.config.testsection.message}");
+    
+    // Create the diku tenant. This isn't how the final solution will work.
+//    tenantAdminService.createTenant('diku')
+//    tenantAdminService.freshenAllTenantSchemas()
 
     log.debug("BootStrap::init completed");
   }

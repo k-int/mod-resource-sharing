@@ -1,0 +1,12 @@
+{
+    "resourcesharing": {
+        "module": {
+            "id": "resource-sharing",
+            "version": "1.0.0",
+            "name": "Resource Sharing Module"
+        }
+    },
+    "tenant": {
+        "id": "diku"
+    }
+}

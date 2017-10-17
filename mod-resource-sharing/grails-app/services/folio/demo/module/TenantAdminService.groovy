@@ -3,6 +3,7 @@ package folio.demo.module
 import groovy.sql.Sql
 import grails.rest.*
 import grails.converters.*
+import grails.core.GrailsApplication
 import javax.sql.DataSource
 import liquibase.Liquibase
 import liquibase.database.Database
@@ -21,6 +22,7 @@ class TenantAdminService {
 
   def hibernateDatastore
   def dataSource
+  GrailsApplication grailsApplication
 
   public void createTenant(String tenantId) {
 
@@ -70,27 +72,11 @@ class TenantAdminService {
 
     log.debug("freshenAllTenantSchemas()");
 
-    ResultSet schemas = dataSource.getConnectio().getMetaData().getSchemas()
+    ResultSet schemas = dataSource.getConnection().getMetaData().getSchemas()
     while(schemas.next()) {
       String schema_name = schemas.getString("TABLE_SCHEM")
       if ( schema_name.endsWith(SCHEMA_SUFFIX) ) {
-        // It's one to update
-        // Now try create the tables for the schema
-        try {
-          GrailsLiquibase gl = new GrailsLiquibase(applicationContext)
-          gl.dataSource = applicationContext.getBean("dataSource", DataSource)
-          gl.dropFirst = false
-          gl.changeLog = 'module-tenant-changelog.groovy'
-          gl.contexts = []
-          gl.labels = []
-          gl.defaultSchema = schema_name
-          gl.databaseChangeLogTableName = 'grails_demo_folio_module_tenant_changelog'
-          gl.databaseChangeLogLockTableName = 'grails_demo_folio_module_tenant_changelog_lock'
-          gl.afterPropertiesSet() // this runs the update command
-        } catch (Exception e) {
-            log.error("Exception trying to create new account schema tables for $tenantId", e)
-            throw e
-        }
+        updateAccountSchema(schema_name)
       }
     }
 
@@ -100,12 +86,10 @@ class TenantAdminService {
 
     log.debug("updateAccountSchema(${schema_name})");
 
-    def applicationContext = grails.util.Holders.applicationContext
-
     // Now try create the tables for the schema
     try {
-      GrailsLiquibase gl = new GrailsLiquibase(applicationContext)
-      gl.dataSource = applicationContext.getBean("dataSource", DataSource)
+      GrailsLiquibase gl = new GrailsLiquibase(grailsApplication.mainContext)
+      gl.dataSource = dataSource
       gl.dropFirst = false
       gl.changeLog = 'module-tenant-changelog.groovy'
       gl.contexts = []
