@@ -1,11 +1,13 @@
 package com.k_int.folio.rs
 
 
-import grails.rest.*
+import com.k_int.web.toolkit.rest.TenantAwareRestfulController
 import grails.converters.*
-import grails.gorm.multitenancy.CurrentTenant
+import grails.gorm.multitenancy.*
 
-class RequestController extends RestfulController {
+
+@CurrentTenant
+class RequestController extends TenantAwareRestfulController<ResourceSharingRequest> {
 
   static responseFormats = ['json', 'xml']
 
@@ -16,7 +18,6 @@ class RequestController extends RestfulController {
   /**
    * Make a new request for a specific user / patron
    */
-  @CurrentTenant
   def save() {
     log.debug("RequestController::save ${params} ${request.JSON}");
     super.save();
@@ -26,7 +27,6 @@ class RequestController extends RestfulController {
     return request.JSON
   }
 
-  @CurrentTenant
   def search(String q, Integer max ) { 
     if (q) {
         def query = ResourceSharingRequest.where { 

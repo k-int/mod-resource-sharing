@@ -11,6 +11,7 @@ import grails.plugins.rest.client.RestBuilder
 
 @Integration
 // @Rollback
+@Stepwise
 class RSRequestSpec extends GebSpec {
 
     def setup() {
