@@ -2,10 +2,14 @@ package com.k_int.folio.rs
 
 
 import grails.rest.*
+
+import com.k_int.web.toolkit.rest.TenantAwareRestfulController
+
 import grails.converters.*
 import grails.gorm.multitenancy.CurrentTenant
 
-class PartyController extends RestfulController {
+@CurrentTenant
+class PartyController extends TenantAwareRestfulController<Party>  {
 
   static responseFormats = ['json', 'xml']
 
@@ -13,7 +17,6 @@ class PartyController extends RestfulController {
     super(Party)
   }
 
-  @CurrentTenant
   def save() {
     log.debug("PartyController::save ${params} ${request.JSON}");
     super.save();
@@ -23,7 +26,6 @@ class PartyController extends RestfulController {
     return request.JSON
   }
 
-  @CurrentTenant
   def search(String q, Integer max ) { 
     if (q) {
         def query = Party.where { 
