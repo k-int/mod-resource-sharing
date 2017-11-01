@@ -24,7 +24,7 @@ class UrlMappings {
 
         '/requests'(resources: 'request') {
           collection {
-            '/search'(controller: 'request', action: 'search')
+            "/search/$term?" (controller: 'request', action: 'search')
           }
         }
     }
