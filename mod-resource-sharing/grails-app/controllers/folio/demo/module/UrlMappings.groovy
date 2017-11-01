@@ -18,7 +18,7 @@ class UrlMappings {
 
         '/locations'(resources: 'party') {
           collection {
-            '/search'(controller: 'party', action: 'search')
+            "/search/$term?"(controller: 'party', action: 'search')
           }
         }
 
