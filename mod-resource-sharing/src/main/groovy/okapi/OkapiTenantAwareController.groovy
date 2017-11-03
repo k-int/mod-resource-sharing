@@ -25,8 +25,10 @@ class OkapiTenantAwareController<T> extends TenantAwareRestfulController<T> {
     return request.JSON
   }
 
-  def search (String term) {
-    def results = simpleLookupService.lookup(this.resource, term, Math.min(params.int('perPage') ?: 100, 100), params.int("page"), params.list("filters"), params.list("match"))
+  def search () {
+    String term = params.term
+    def match = params.list("match")
+    def results = simpleLookupService.lookup(this.resource, term, Math.min(params.int('perPage') ?: 100, 100), params.int("page"), params.list("filters"), match)
     respond results
   }
 }
