@@ -16,16 +16,7 @@ class UrlMappings {
 
         "/_/tenant"(controller: 'okapi', action:'tenant')
 
-        '/locations'(resources: 'party') {
-          collection {
-            "/search"(action: 'search')
-          }
-        }
-
-        '/requests'(resources: 'request') {
-          collection {
-            "/search" (action: 'search')
-          }
-        }
+        '/locations'(resources: 'party')
+        '/requests'(resources: 'request')
     }
 }
