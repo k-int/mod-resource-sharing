@@ -17,14 +17,6 @@ import javax.servlet.http.HttpServletRequest
  */
 @CompileStatic
 class OkapiTenantResolver implements TenantResolver {
-
-    public static final String HEADER_NAME = "X-Okapi-Tenant"
-
-    /**
-     * The name of the header
-     */
-    String headerName = HEADER_NAME
-
     @Override
     Serializable resolveTenantIdentifier() {
 
@@ -32,12 +24,12 @@ class OkapiTenantResolver implements TenantResolver {
         if(requestAttributes instanceof ServletWebRequest) {
 
             HttpServletRequest httpServletRequest = ((ServletWebRequest) requestAttributes).getRequest()
-            String tenantId = httpServletRequest.getHeader(headerName.toLowerCase())?.toLowerCase()
+            String tenantId = httpServletRequest.getHeader(OkapiHeaders.TENANT.toLowerCase())?.toLowerCase()
 
             if ( tenantId ) {
                 return tenantId+'_mod_resource_sharing'
             }
-            throw new TenantNotFoundException("Tenant could not be resolved from HTTP Header: ${headerName}")
+            throw new TenantNotFoundException("Tenant could not be resolved from HTTP Header: ${OkapiHeaders.TENANT}")
         }
 
         throw new TenantNotFoundException("Tenant could not be resolved outside a web request")

@@ -1,7 +1,5 @@
 package folio.demo.module
 
-import org.grails.plugins.databasemigration.liquibase.GrailsLiquibase
-import javax.sql.DataSource
 import grails.gorm.multitenancy.*
 
 class BootStrap {
@@ -16,7 +14,7 @@ class BootStrap {
     // Create the diku tenant. This isn't how the final solution will work.
     tenantAdminService.createTenant('diku')
     tenantAdminService.freshenAllTenantSchemas()
-
+    
     log.debug("BootStrap::init completed");
   }
 

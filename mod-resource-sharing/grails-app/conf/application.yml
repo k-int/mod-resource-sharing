@@ -17,6 +17,35 @@ grails:
         multiTenancy:
             mode: SCHEMA
             tenantResolverClass: okapi.OkapiTenantResolver    # See src/main/groovy
+            
+    plugin:
+      springsecurity:
+        providerNames:
+          - 'okapiAuthenticationProvider'
+          
+        controllerAnnotations:
+          staticRules:
+            -
+              pattern: '/'
+              access: 
+                - 'permitAll'
+            -
+              pattern: '/**'
+              access: 
+                - 'permitAll'
+          
+#        securityConfigType: 'InterceptUrlMap'
+#        interceptUrlMap:
+#          -
+#            pattern: '/**'
+#            access:
+#              - 'permitAll'
+        filterChain:
+          chainMap:
+            - 
+              pattern: '/**'
+              filters: 'JOINED_FILTERS,-exceptionTranslationFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter,-basicAuthenticationFilter,-basicExceptionTranslationFilter'
+          
 
 info:
     app:
@@ -132,3 +161,4 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+                
