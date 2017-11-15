@@ -1,6 +1,8 @@
 package com.k_int.folio.rs
 
-import grails.gorm.MultiTenant;
+
+import grails.gorm.MultiTenant
+import grails.plugin.springsecurity.SpringSecurityService
 
 
 /**
@@ -9,7 +11,7 @@ import grails.gorm.MultiTenant;
  * This class holds the details the patron has given to the library to help locate and request
  * said item.
  */
-class ResourceSharingRequest  implements MultiTenant<ResourceSharingRequest> {
+class ResourceSharingRequest implements MultiTenant<ResourceSharingRequest> {
 
   String id
   String itemType  // monograph, serial, other
@@ -41,7 +43,7 @@ class ResourceSharingRequest  implements MultiTenant<ResourceSharingRequest> {
 
   ProtocolRequest currentServiceRequest
 
-  // rota is a simple set, but will be orderd by the rotaSequence element to allow easy reordering
+  // rota is a simple set, but will be ordered by the rotaSequence element to allow easy reordering
   static hasMany = [
     rota:ProtocolRequest
   ]
