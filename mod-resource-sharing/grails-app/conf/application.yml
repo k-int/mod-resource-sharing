@@ -26,26 +26,23 @@ grails:
         controllerAnnotations:
           staticRules:
             -
-              pattern: '/'
+              pattern: '/okapi/**'
+              access:
+                - 'permitAll'
+            -
+              pattern: '/application/**'
               access: 
                 - 'permitAll'
             -
               pattern: '/**'
-              access: 
-                - 'permitAll'
-          
-#        securityConfigType: 'InterceptUrlMap'
-#        interceptUrlMap:
-#          -
-#            pattern: '/**'
-#            access:
-#              - 'permitAll'
+              access:
+#                - 'permitAll'
+                - 'hasAuthority("folio.resource-sharing.user")'
         filterChain:
           chainMap:
             - 
               pattern: '/**'
-              filters: 'JOINED_FILTERS,-exceptionTranslationFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter,-basicAuthenticationFilter,-basicExceptionTranslationFilter'
-          
+              filters: 'JOINED_FILTERS,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter,-basicAuthenticationFilter'
 
 info:
     app:

@@ -6,7 +6,6 @@ import grails.plugin.springsecurity.annotation.Secured
 import okapi.OkapiTenantAwareController
 
 @CurrentTenant
-//@Secured(['folio.resource-sharing.read'])
 class RequestController extends OkapiTenantAwareController<ResourceSharingRequest> {
   
   RequestController() {
@@ -25,11 +24,11 @@ class RequestController extends OkapiTenantAwareController<ResourceSharingReques
   }
   
   @Override
-  def index() {    
+  def index() {
     
     List<String> filters = [] + params.list("filters")
     
-    if (patron) {
+    if (patron && !hasAuthority('folio.resource-sharing.any.read')) {
       // We force an extra filter in here.
       filters << "patronId==${patron.id}"
     }

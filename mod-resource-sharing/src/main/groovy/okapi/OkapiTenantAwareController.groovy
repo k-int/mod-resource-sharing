@@ -8,6 +8,7 @@ import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.SpringSecurityService
 
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.web.access.AccessDeniedHandlerImpl
 
 @CurrentTenant
 @Artefact('Controller')
@@ -32,6 +33,18 @@ class OkapiTenantAwareController<T> extends TenantAwareRestfulController<T> {
   
   protected UserDetails getPatron() {
     springSecurityService.principal
+  }
+  
+  protected boolean hasAnyAuthority(Set auths) {
+    AccessDeniedHandlerImpl f
+    def pAuths = patron?.authorities?.collect { it.authority }
+    def intersect = pAuths?.intersect(auths)
+    intersect
+  }
+  
+  protected boolean hasAuthority(String auth) {
+    def intersect = hasAnyAuthority((auth ? [auth] : []) as Set)
+    intersect
   }
   
   def index() {

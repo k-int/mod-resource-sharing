@@ -1,8 +1,10 @@
 package folio.demo.module
 
+import org.springframework.beans.factory.config.RuntimeBeanReference
 import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint
 import org.springframework.boot.web.servlet.FilterRegistrationBean
-
+import org.springframework.security.web.access.AccessDeniedHandler
+import com.k_int.okapi.springsecurity.OkapiAuthAwareAccessDeniedHandler
 import com.k_int.okapi.springsecurity.OkapiAuthenticationFilter
 import com.k_int.okapi.springsecurity.OkapiAuthenticationProvider
 
@@ -12,6 +14,7 @@ import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
 
 class Application extends GrailsAutoConfiguration {
+  
   static void main(String[] args) {
     GrailsApp.run(Application, args)
   }
@@ -33,6 +36,9 @@ class Application extends GrailsAutoConfiguration {
     }
     
     okapiAuthenticationProvider(OkapiAuthenticationProvider)
+    
+    // Replace the AccessDenied handler to not redirect if the authentication was done with OKAPI.
+    okapiAuthAwareAccessDeniedHandler(OkapiAuthAwareAccessDeniedHandler)
   }}
   
   @Override
