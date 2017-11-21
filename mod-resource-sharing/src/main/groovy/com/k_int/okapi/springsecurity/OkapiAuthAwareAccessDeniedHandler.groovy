@@ -1,12 +1,10 @@
 package com.k_int.okapi.springsecurity
 
-import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
 import javax.annotation.PostConstruct
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import org.springframework.beans.factory.NoSuchBeanDefinitionException
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -15,7 +13,9 @@ import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.access.AccessDeniedHandler
-import org.springframework.security.web.access.ExceptionTranslationFilter
+
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 @CompileStatic
 @Slf4j
@@ -49,6 +49,8 @@ class OkapiAuthAwareAccessDeniedHandler implements AccessDeniedHandler {
       
       // Manually update the previous here.
       previousAccessDeniedHandler = (AccessDeniedHandler) beanFactory.getBean('previousAccessDeniedHandler')
+      
+      log.info "Replacing the default accessDenied Handler with an OKAPI request aware version."
     }
   }
   
