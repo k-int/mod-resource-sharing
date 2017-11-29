@@ -1,10 +1,8 @@
 package com.k_int.folio.rs
 
-import grails.gorm.MultiTenant;
+import grails.gorm.MultiTenant
 
-import grails.rest.Resource
-
-class Party  implements MultiTenant<Party> {
+class Party implements MultiTenant<Party> {
 
   String id
   String code
@@ -21,7 +19,6 @@ class Party  implements MultiTenant<Party> {
   static constraints = {
     name(nullable:false, blank:false);
   }
-
 
   static mapping = {
     table 'rs_party'

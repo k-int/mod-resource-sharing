@@ -7,7 +7,7 @@ import grails.gorm.MultiTenant;
  * A message is an action that will cause a transition between 2 protocol states (Tho they can be the same state)
  * this object records the detail of the message.
  */
-class ProtocolMessage  implements MultiTenant<ProtocolMessage> {
+class ProtocolMessage implements MultiTenant<ProtocolMessage> {
 
   String id
   Date messageTimestamp

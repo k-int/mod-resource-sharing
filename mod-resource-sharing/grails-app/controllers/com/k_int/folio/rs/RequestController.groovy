@@ -1,12 +1,14 @@
 package com.k_int.folio.rs
 
+
 import grails.gorm.multitenancy.CurrentTenant
-import grails.plugin.springsecurity.SpringSecurityService
-import grails.plugin.springsecurity.annotation.Secured
+import grails.gorm.transactions.Transactional
 import okapi.OkapiTenantAwareController
 
 @CurrentTenant
 class RequestController extends OkapiTenantAwareController<ResourceSharingRequest> {
+  
+  ResourceSharingRequestService resourceSharingRequestService
   
   RequestController() {
     super(ResourceSharingRequest)
@@ -18,8 +20,17 @@ class RequestController extends OkapiTenantAwareController<ResourceSharingReques
     if (patron) {
       defaults.patronId = patron.id
     }
+    
+    // Create with defaults.
     ResourceSharingRequest instance = createResource(defaults)
+    
+    // Add the initial values for the Rota etc..
+    resourceSharingRequestService.initializeRequest(instance)
+    
+    // Bind the supplied data
     bindData instance, getObjectToBind()
+    
+    // Return our new instance.
     instance
   }
   

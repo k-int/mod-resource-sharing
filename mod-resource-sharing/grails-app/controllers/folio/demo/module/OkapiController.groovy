@@ -31,13 +31,13 @@ class OkapiController {
       switch ( request.method ) {
         case 'GET':
         case 'POST':
-          tenantAdminService.createTenant(tenant_id);
+          tenantAdminService.createTenant(tenant_id)
           break;
         case 'DELETE':
           try {
             log.debug("Request to destroy tenant -- hanging fire here");
             // This is well risqe, but it actually suits our functional test framework ;)
-            tenantAdminService.dropTenant(tenant_id);
+            tenantAdminService.dropTenant(tenant_id)
           }
           catch ( Exception e ) {
             log.warn("There was an exception thrown in tenantAdminService.dropTenant. Not worrying unduly!");

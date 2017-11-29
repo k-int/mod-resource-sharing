@@ -1,9 +1,8 @@
 package com.k_int.folio.rs
+import grails.gorm.MultiTenant
 
-import grails.gorm.MultiTenant;
 
-
-class ResourceSharingService  implements MultiTenant<ResourceSharingService> {
+class ResourceSharingService implements MultiTenant<ResourceSharingService> {
 
   String id
   String symbol
@@ -15,7 +14,7 @@ class ResourceSharingService  implements MultiTenant<ResourceSharingService> {
   static mapping = {
     table 'rs_service'
     id(column:'rss_id', generator: 'uuid', length:36)
-    symbol column:'rss_sumbol'
+    symbol column:'rss_symbol'
   }
 
 }

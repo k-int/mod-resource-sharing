@@ -7,11 +7,12 @@ class BootStrap {
   def grailsApplication
   def tenantAdminService
   def dataSource
+  def rulesService
 
   def init = { servletContext ->
     log.debug("Reporting config from folio_globals.yaml: ${grailsApplication.config.testsection.message}");
     
-    // Create the diku tenant. This isn't how the final solution will work.
+    // Freshen up the schemas.
     tenantAdminService.createTenant('diku')
     tenantAdminService.freshenAllTenantSchemas()
     

@@ -1,6 +1,6 @@
 package com.k_int.folio.rs
 
-import grails.gorm.MultiTenant;
+import grails.gorm.MultiTenant
 
 class Member implements MultiTenant<Member> {
 

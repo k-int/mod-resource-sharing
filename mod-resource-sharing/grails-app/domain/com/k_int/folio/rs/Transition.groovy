@@ -3,7 +3,7 @@ package com.k_int.folio.rs
 import grails.gorm.MultiTenant;
 
 
-class Transition  implements MultiTenant<Transition> {
+class Transition implements MultiTenant<Transition> {
 
   String id
   State to

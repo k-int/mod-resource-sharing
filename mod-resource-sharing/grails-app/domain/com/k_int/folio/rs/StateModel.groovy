@@ -3,15 +3,15 @@ package com.k_int.folio.rs
 import grails.gorm.MultiTenant;
 
 
-class StateModel  implements MultiTenant<StateModel> {
-
-  String id;
-  String code;
-  String description;
+class StateModel implements MultiTenant<StateModel> {
+  
+  String id
+  String code
+  String description
 
   static constraints = {
-    code(nullable:false, blank:false);
-    description(nullable:true, blank:false);
+    code(nullable:false, blank:false)
+    description(nullable:true, blank:false)
   }
 
   static mapping = {

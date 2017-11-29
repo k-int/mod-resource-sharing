@@ -159,3 +159,7 @@ environments:
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
                 
+rs:
+  rota:
+    depth: 3
+

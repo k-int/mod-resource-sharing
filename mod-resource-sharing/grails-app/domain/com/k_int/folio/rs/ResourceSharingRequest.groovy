@@ -84,7 +84,7 @@ class ResourceSharingRequest implements MultiTenant<ResourceSharingRequest> {
   static mapping = {
     table 'rs_req'
     id(column:'rsr_id', generator: 'uuid', length:36)
-
+    rota sort:'rotaSequence', order: 'asc', bindable: false
                        itemType column:'rs_item_type'
                  heldMediumType column:'rs_held_medium_type'
                      callNumber column:'rs_call_number'

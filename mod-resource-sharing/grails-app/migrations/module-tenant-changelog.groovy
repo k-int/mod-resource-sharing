@@ -212,7 +212,7 @@ databaseChangeLog = {
                 constraints(nullable: "false")
             }
 
-            column(name: "rss_sumbol", type: "VARCHAR(255)")
+            column(name: "rss_symbol", type: "VARCHAR(255)")
         }
     }
 

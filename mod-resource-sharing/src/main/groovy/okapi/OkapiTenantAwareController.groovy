@@ -28,7 +28,7 @@ class OkapiTenantAwareController<T> extends TenantAwareRestfulController<T> {
   }
 
   def getObjectToBind() {
-    return request.JSON
+    request.JSON
   }
   
   protected UserDetails getPatron() {

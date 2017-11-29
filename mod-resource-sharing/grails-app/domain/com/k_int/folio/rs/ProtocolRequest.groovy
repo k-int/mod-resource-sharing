@@ -1,8 +1,6 @@
 package com.k_int.folio.rs
 
-import grails.gorm.MultiTenant;
-
-
+import grails.gorm.MultiTenant
 
 /**
  * A single conversation with a remote service to try and negotiate the supply of a described item.
@@ -10,7 +8,7 @@ import grails.gorm.MultiTenant;
  * moving down the rota until we reach a partner able to supply. For incoming requests, the ProtocolRequest
  * stands alone and tracks our activity responding to such requests.
  */
-class ProtocolRequest  implements MultiTenant<ProtocolRequest> {
+class ProtocolRequest implements MultiTenant<ProtocolRequest> {
 
   String id
 
@@ -42,8 +40,8 @@ class ProtocolRequest  implements MultiTenant<ProtocolRequest> {
     id(column:'pr_id', generator: 'uuid', length:36)
             role column:'pr_role'
     rotaSequence column:'pr_rota_seq'
-         service column:'pr_service_fk'
-    currentState column:'pr_current_state_fk'
+         service column:'pr_service_fk', cascade: 'merge', 'save-update', 'lock', 'refresh', 'evict', 'replicate'
+    currentState column:'pr_current_state_fk', cascade: 'merge', 'save-update', 'lock', 'refresh', 'evict', 'replicate'
            owner column:'pr_owner_rsr_fk'
   }
 
