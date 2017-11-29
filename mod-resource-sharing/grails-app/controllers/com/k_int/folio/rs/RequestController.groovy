@@ -2,7 +2,6 @@ package com.k_int.folio.rs
 
 
 import grails.gorm.multitenancy.CurrentTenant
-import grails.gorm.transactions.Transactional
 import okapi.OkapiTenantAwareController
 
 @CurrentTenant
