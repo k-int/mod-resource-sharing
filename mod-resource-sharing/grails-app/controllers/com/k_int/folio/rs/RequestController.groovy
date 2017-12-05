@@ -2,7 +2,9 @@ package com.k_int.folio.rs
 
 
 import grails.gorm.multitenancy.CurrentTenant
+import grails.plugin.springsecurity.annotation.Secured
 import okapi.OkapiTenantAwareController
+import static grails.gorm.multitenancy.Tenants.*
 
 @CurrentTenant
 class RequestController extends OkapiTenantAwareController<ResourceSharingRequest> {
@@ -45,5 +47,17 @@ class RequestController extends OkapiTenantAwareController<ResourceSharingReques
     
     def results = simpleLookupService.lookup(this.resource, params.term, Math.min(params.int('perPage') ?: 100, 100), params.int("page"), filters, params.list("match"))
     respond results
+  }
+  
+  @Secured('hasAuthority("folio.resource-sharing.admin")')
+  def rotaStart() {
+    
+    if (params.requestId) {
+      resourceSharingRequestService.startRota(currentId(), params.requestId)
+      render status: 204
+    } else {
+      render status: 404
+    }
+    return
   }
 }

@@ -1,11 +1,21 @@
 package com.k_int.folio.rs
 
-import org.springframework.beans.factory.annotation.Value
+import static grails.async.Promises.*
 
+
+import org.springframework.beans.factory.annotation.Value
+import static grails.gorm.multitenancy.Tenants.*
+import grails.async.Promise
+import grails.events.EventPublisher
+import grails.events.annotation.Subscriber
+import grails.events.bus.EventBusAware
 import grails.gorm.multitenancy.CurrentTenant
+import grails.gorm.multitenancy.WithoutTenant
 
 @CurrentTenant
-class ResourceSharingRequestService {
+class ResourceSharingRequestService implements EventPublisher {
+  
+  Random random = new Random()
   
   @Value('${rs.rota.depth}')
   int depth
@@ -34,6 +44,122 @@ class ResourceSharingRequestService {
     }
     
     request
+  }
+  
+  @Subscriber
+  @WithoutTenant
+  void onRotastart(String rsrId) {
+    println "Rota started for ${rsrId}"
+  }
+  
+  @Subscriber
+  @WithoutTenant
+  void onRotanotsupplied(String rsrId, String prId) {
+    println "Institution ID ${prId} could not supply for request ${rsrId}"
+  }
+  
+  @Subscriber
+  @WithoutTenant
+  void onRotashipped(String rsrId, String prId) {
+    println "Institution ID ${prId} has shipped for request ${rsrId}"
+  }
+  
+  @Subscriber
+  @WithoutTenant
+  void onRotapending(String rsrId, String prId) {
+    println "Pending response from Institution ID ${prId} for request ${rsrId}"
+  }
+  
+  @Subscriber
+  @WithoutTenant
+  void onRotaend(String rsrId) {
+    println "Rota ended for ${rsrId}"
+  }
+  
+  @WithoutTenant
+  private void setRequestState(final String theTenantId, final String prid, final String stateCode) {
+    withId (theTenantId) {
+      ProtocolRequest pr = ProtocolRequest.get(prid)
+      pr.currentState = getState('Generic Script', stateCode)
+      pr.save(failOnError:true)
+      
+      // Raise an event
+      notify("rota${stateCode.toLowerCase()}".replaceAll('\\s', ''), pr.owner.id, prid)
+    }
+  }
+  
+  public Promise startRota(final String theTenantId, final String rsrId) {
+    // We attempt to do this asynchronously.
+    Promise p = task {
+      
+      // Because this is an asynchronous task and will be executed outside of the current request
+      // context we need to use the withId id method to use a particular tenant id.
+      
+      withId (theTenantId) {
+        // This closure is run as a background task.
+        notify("rotastart", rsrId)
+        
+        // Read in the object.
+        ResourceSharingRequest rsr = ResourceSharingRequest.load(rsrId)      
+        
+        if (!rsr.currentServiceRequest) {
+          // Start the service.
+          def theRota = rsr.rota
+          def terminator = random.nextInt(theRota.size()+1)
+          
+          String finalState
+          String finalEventName
+          if (terminator == theRota.size()) {
+            // Item NOT SUPPLIED
+            finalState = 'NOT SUPPLIED'
+            terminator --
+          } else {
+            // Item SHIPPED by rota item at index identified by terminator.
+            finalState = 'SHIPPED'
+          }
+          
+          for (int i=0; i<=terminator; i++) {
+            
+            ProtocolRequest pr = theRota[i]
+            setRequestState(theTenantId, pr.id, 'PENDING')
+            
+            pr = ProtocolRequest.read(pr.id)
+            rsr.currentServiceRequest = pr
+            
+            // Sleep between 2 and 10 seconds.
+            int pause = random.nextInt( 9 ) + 2
+            println "Wait for ${pause} seconds (simulating response time)"
+            sleep(pause * 1000)
+            
+            if (i == terminator) {
+              // End here.
+              setRequestState(theTenantId, pr.id, finalState)
+            } else {
+              // Just set to NOT SUPPLIED.
+              setRequestState(theTenantId, pr.id, 'NOT SUPPLIED')
+            }
+          }
+        
+          rsr.save(failOnError: true, flush:true)
+        }
+        
+        // End
+        notify("rotaend", rsrId)
+        true
+      }
+    }
+    
+    // Error.
+    p.onError { Throwable err ->
+      log.error "Error processing rota for ${rsrId}: ${err.message}", err
+    }
+    
+    p.onComplete { result ->
+      log.info "Rota for ${rsrId} completed."
+    }
+    
+    // This method will not block. We pass the promise back to the caller.
+    p
   }
   
   ResourceSharingRequest initializeRequest() {

@@ -19,6 +19,8 @@ class UrlMappings {
         "/_/tenant"(controller: 'okapi', action:'tenant')
 
         '/locations'(resources: 'party')
-        '/requests'(resources: 'request')
+        '/requests'(resources: 'request') {
+          '/start' (controller: 'request', action: 'rotaStart')
+        }
     }
 }

@@ -12,10 +12,20 @@ import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
 import grails.plugin.springsecurity.SecurityFilterPosition
 import grails.plugin.springsecurity.SpringSecurityUtils
-
+import org.apache.commons.lang.exception.ExceptionUtils
+import org.grails.events.bus.*
+import java.util.concurrent.*
 class Application extends GrailsAutoConfiguration {
   
   static void main(String[] args) {
+    ExceptionUtils d
+    Thread.setDefaultUncaughtExceptionHandler(
+      new Thread.UncaughtExceptionHandler() {
+        @Override public void uncaughtException(Thread t, Throwable e) {
+          System.out.println(ExceptionUtils.getFullStackTrace(e));
+        }
+      }
+    );
     GrailsApp.run(Application, args)
   }
   
@@ -39,6 +49,8 @@ class Application extends GrailsAutoConfiguration {
     
     // Replace the AccessDenied handler to not redirect if the authentication was done with OKAPI.
     okapiAuthAwareAccessDeniedHandler(OkapiAuthAwareAccessDeniedHandler)
+    
+    grailsEventBus(ExecutorEventBus, Executors.newFixedThreadPool(5))
   }}
   
   @Override
