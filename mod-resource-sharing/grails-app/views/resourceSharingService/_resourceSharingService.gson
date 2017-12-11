@@ -1,0 +1,7 @@
+package resourceSharingService;
+import groovy.transform.*
+import com.k_int.folio.rs.ResourceSharingService
+
+@Field ResourceSharingService resourceSharingService
+
+json g.render(resourceSharingService, [excludes:['owner']])

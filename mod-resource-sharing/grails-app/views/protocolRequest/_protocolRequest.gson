@@ -1,0 +1,9 @@
+import groovy.transform.*
+import com.k_int.folio.rs.ProtocolRequest
+
+@Field ProtocolRequest protocolRequest
+
+json g.render(protocolRequest, [excludes: ['owner']]) {
+  "currentState" g.render(protocolRequest.currentState)
+  "service" g.render(protocolRequest.service)
+}

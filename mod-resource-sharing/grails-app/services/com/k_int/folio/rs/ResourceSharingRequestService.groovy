@@ -1,13 +1,12 @@
 package com.k_int.folio.rs
 
 import static grails.async.Promises.*
-
+import static grails.gorm.multitenancy.Tenants.*
 
 import org.springframework.beans.factory.annotation.Value
-import static grails.gorm.multitenancy.Tenants.*
+
 import grails.async.Promise
 import grails.events.EventPublisher
-import grails.events.annotation.Subscriber
 import grails.events.bus.EventBusAware
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.multitenancy.WithoutTenant
@@ -46,45 +45,17 @@ class ResourceSharingRequestService implements EventPublisher {
     request
   }
   
-  @Subscriber
   @WithoutTenant
-  void onRotastart(String rsrId) {
-    println "Rota started for ${rsrId}"
-  }
-  
-  @Subscriber
-  @WithoutTenant
-  void onRotanotsupplied(String rsrId, String prId) {
-    println "Institution ID ${prId} could not supply for request ${rsrId}"
-  }
-  
-  @Subscriber
-  @WithoutTenant
-  void onRotashipped(String rsrId, String prId) {
-    println "Institution ID ${prId} has shipped for request ${rsrId}"
-  }
-  
-  @Subscriber
-  @WithoutTenant
-  void onRotapending(String rsrId, String prId) {
-    println "Pending response from Institution ID ${prId} for request ${rsrId}"
-  }
-  
-  @Subscriber
-  @WithoutTenant
-  void onRotaend(String rsrId) {
-    println "Rota ended for ${rsrId}"
-  }
-  
-  @WithoutTenant
-  private void setRequestState(final String theTenantId, final String prid, final String stateCode) {
+  protected void setRequestState(final String theTenantId, final String prid, final String stateCode) {
+    
+    def me = this
     withId (theTenantId) {
       ProtocolRequest pr = ProtocolRequest.get(prid)
       pr.currentState = getState('Generic Script', stateCode)
-      pr.save(failOnError:true)
+      pr.save(failOnError:true, flush:true)
       
       // Raise an event
-      notify("rota${stateCode.toLowerCase()}".replaceAll('\\s', ''), pr.owner.id, prid)
+      me.notify("rota${stateCode.toLowerCase()}".replaceAll('\\s', ''), pr.owner.id, prid)
     }
   }
   
@@ -100,19 +71,20 @@ class ResourceSharingRequestService implements EventPublisher {
         notify("rotastart", rsrId)
         
         // Read in the object.
-        ResourceSharingRequest rsr = ResourceSharingRequest.load(rsrId)      
+        ResourceSharingRequest rsr = ResourceSharingRequest.read(rsrId)
         
         if (!rsr.currentServiceRequest) {
+          
           // Start the service.
           def theRota = rsr.rota
-          def terminator = random.nextInt(theRota.size()+1)
+          int terminator = random.nextInt(theRota.size()+1)
           
           String finalState
           String finalEventName
           if (terminator == theRota.size()) {
             // Item NOT SUPPLIED
             finalState = 'NOT SUPPLIED'
-            terminator --
+            terminator--
           } else {
             // Item SHIPPED by rota item at index identified by terminator.
             finalState = 'SHIPPED'
@@ -120,27 +92,37 @@ class ResourceSharingRequestService implements EventPublisher {
           
           for (int i=0; i<=terminator; i++) {
             
-            ProtocolRequest pr = theRota[i]
-            setRequestState(theTenantId, pr.id, 'PENDING')
-            
-            pr = ProtocolRequest.read(pr.id)
-            rsr.currentServiceRequest = pr
+            def prId = theRota[i].id
+            ResourceSharingRequest.withNewSession {
+              // Set the request type...
+              setRequestState(theTenantId, prId, 'PENDING')
+              
+              // Read in the altered request.
+              ProtocolRequest pr = ProtocolRequest.get(prId)
+              
+              // Set current pointer.
+              pr.owner.currentServiceRequest = pr
+              
+              // Save the owner.
+              pr.owner.save( failOnError: true, flush:true )
+              pr.save( failOnError: true, flush:true )
+            }
             
             // Sleep between 2 and 10 seconds.
-            int pause = random.nextInt( 9 ) + 2
+            int pause = random.nextInt( 3 ) + 8
             println "Wait for ${pause} seconds (simulating response time)"
             sleep(pause * 1000)
             
-            if (i == terminator) {
-              // End here.
-              setRequestState(theTenantId, pr.id, finalState)
-            } else {
-              // Just set to NOT SUPPLIED.
-              setRequestState(theTenantId, pr.id, 'NOT SUPPLIED')
+            ResourceSharingRequest.withNewSession {
+              if (i == terminator) {
+                // End here.
+                setRequestState(theTenantId, prId, finalState)
+              } else {
+                // Just set to NOT SUPPLIED.
+                setRequestState(theTenantId, prId, 'NOT SUPPLIED')
+              }
             }
           }
-        
-          rsr.save(failOnError: true, flush:true)
         }
         
         // End

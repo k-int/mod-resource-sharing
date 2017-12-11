@@ -1,4 +1,3 @@
-package state
 import groovy.transform.*
 import com.k_int.folio.rs.State
 

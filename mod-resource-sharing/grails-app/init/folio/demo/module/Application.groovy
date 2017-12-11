@@ -50,7 +50,7 @@ class Application extends GrailsAutoConfiguration {
     // Replace the AccessDenied handler to not redirect if the authentication was done with OKAPI.
     okapiAuthAwareAccessDeniedHandler(OkapiAuthAwareAccessDeniedHandler)
     
-    grailsEventBus(ExecutorEventBus, Executors.newFixedThreadPool(5))
+//    grailsEventBus(ExecutorEventBus, Executors.newFixedThreadPool(5))
   }}
   
   @Override

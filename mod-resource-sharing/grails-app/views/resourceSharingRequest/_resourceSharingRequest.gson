@@ -6,13 +6,9 @@ import com.k_int.folio.rs.ProtocolRequest
 
 json g.render(resourceSharingRequest, [excludes: ['rota']]) {
   
+  "rota" g.render (resourceSharingRequest.rota)
+  
   if (resourceSharingRequest.currentServiceRequest) {
-    ProtocolRequest pr = resourceSharingRequest.currentServiceRequest
-    "currentServiceRequest" {
-      "id" pr.id
-      if (pr.currentState) {
-        "currentState" g.render(pr.currentState)
-      }
-    }
+    "currentServiceRequest" g.render (resourceSharingRequest.currentServiceRequest)
   }
 }
