@@ -1,4 +1,3 @@
-package resourceSharingService;
 import groovy.transform.*
 import com.k_int.folio.rs.ResourceSharingService
 
