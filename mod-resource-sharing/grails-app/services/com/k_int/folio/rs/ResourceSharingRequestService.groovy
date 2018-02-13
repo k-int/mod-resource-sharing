@@ -34,10 +34,14 @@ class ResourceSharingRequestService implements EventPublisher {
     State s = getState('Generic Script', 'IDOL')
     
     for (int index : (1..depth)) {
+      
+      ResourceSharingService rs = ResourceSharingService.findOrCreateBySymbol("Institution ${index}")
+      rs.save()
+      
       request.addToRota(
         role          : 'REQUESTER',
         rotaSequence  : index,
-        service       : ResourceSharingService.findOrCreateBySymbol("Institution ${index}"),
+        service       : rs,
         currentState  : s
       )
     }
