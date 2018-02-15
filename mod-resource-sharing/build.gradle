@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-version "0.0.1"
+version "1.0.0"
 group "com.k_int.folio"
 
 apply plugin:"eclipse"

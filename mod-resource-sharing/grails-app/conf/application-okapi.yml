@@ -5,11 +5,11 @@
 
 dataSource:
   dbCreate: none
-  username: folio
-  password: folio
+  url: jdbc:postgresql://10.0.2.15:5432/okapi_modules
+  username: folio_admin
+  password: folio_admin
   driverClassName: org.postgresql.Driver
   dialect: org.hibernate.dialect.PostgreSQLDialect
-  url: jdbc:postgresql://localhost:5432/folio
   schemaHandler: okapi.OkapiSchemaHandler
   properties:
       jmxEnabled: true
