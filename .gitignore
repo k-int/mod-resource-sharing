@@ -34,3 +34,4 @@
 .*
 !.gitignore
 !.gitmodules
+!.okapi

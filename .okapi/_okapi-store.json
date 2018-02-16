@@ -1,0 +1,11 @@
+{
+    "module": {
+        "id": "resource-sharing",
+        "version": "${appVersion:propertiesfile://mod-resource-sharing/gradle.properties}",
+        "name": "Resource Sharing Module",
+        "warlocation": "/home/folio/backend/mod-$module.id-${module.version}.war"
+    },
+    "tenant": {
+        "id": "diku"
+    }
+}
