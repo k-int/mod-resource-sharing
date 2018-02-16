@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Fetch OKAPI Ctrl Script') {
+    stage('Generate deployment script') {
       steps {
         dir('okapi-ctrl') {
             git url: 'ssh://git@git.k-int.com:100/folio-ci/okapi-control.git', branch: 'master', credentialsId: 'kint-git-key'
@@ -13,9 +13,9 @@ pipeline {
          
           // Execute okapi commands.
           sh '''
-            ./okapi-ctrl/okapi.groovy -n module register
-            ./okapi-ctrl/okapi.groovy -n module deploy
-            ./okapi-ctrl/okapi.groovy -n module activate
+            ./okapi-ctrl/okapi.groovy -n module register > deploy_modules
+            ./okapi-ctrl/okapi.groovy -n module deploy >> deploy_modules
+            ./okapi-ctrl/okapi.groovy -n module activate >> deploy_modules
           '''
         }
       }
