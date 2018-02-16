@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('Fetch OKAPI Ctrl') {
+    stage('Fetch OKAPI Ctrl Script') {
       steps {
-        git(url: 'https://git.k-int.com/folio-ci/okapi-control.git', branch: 'master', credentialsId: 'gitlab-token')
+        git(url: 'ssh://git@git.k-int.com:100/folio-ci/okapi-control.git', branch: 'master', credentialsId: 'kint-git-key')
       }
     }
   }
