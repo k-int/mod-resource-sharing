@@ -8,12 +8,14 @@ pipeline {
         }
         
         // The script is written in groovy so let's ensure that that is on the path.
-        tool name: 'groovy', type: 'hudson.plugins.groovy.GroovyInstallation'
-        
-        // Execute okapi commands.
-        sh '''
-          ./okapi-ctrl/okapi.groovy -n checkup
-        '''
+        withEnv(["PATH+GROOVY=${tool name: 'Groovy 2.4.x', type: 'hudson.plugins.groovy.GroovyInstallation}/bin"]) {
+          // Use full groovy integration to ensure we can build.
+         
+          // Execute okapi commands.
+          sh '''
+            ./okapi-ctrl/okapi.groovy -n checkup
+          '''
+        }
       }
     }
   }
