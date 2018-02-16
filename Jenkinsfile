@@ -13,7 +13,9 @@ pipeline {
          
           // Execute okapi commands.
           sh '''
-            ./okapi-ctrl/okapi.groovy -n checkup
+            ./okapi-ctrl/okapi.groovy -n module register
+            ./okapi-ctrl/okapi.groovy -n module deploy
+            ./okapi-ctrl/okapi.groovy -n module activate
           '''
         }
       }
