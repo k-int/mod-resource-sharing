@@ -1,5 +1,3 @@
-node {
-  stage('Build this module') {
-    echo 'Build called'
-  }
+stage('Build this module') {
+  echo 'Build called'
 }
