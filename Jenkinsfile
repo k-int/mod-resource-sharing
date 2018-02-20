@@ -3,7 +3,9 @@ pipeline {
   stages {
     stage('Build this module') {
       steps {
-        echo 'Build called'
+        dir('mod-resource-sharing') {
+          sh './gradlew -Dgrails.env=okapi clean package'
+        }
       }
     }
   }
