@@ -1,3 +1,3 @@
 node {
-  load "JenkinsStages"
+  load 'JenkinsStages'
 }
