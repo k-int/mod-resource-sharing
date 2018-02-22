@@ -1,6 +1,6 @@
 stage('Build this module') {
   dir('mod-resource-sharing') {
-  
     sh './gradlew -Dgrails.env=okapi --no-daemon --console plain clean bootRepackage'
+    archiveArtifacts artifacts: 'build/libs/*.war', fingerprint: true
   }
 }
