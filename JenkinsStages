@@ -8,7 +8,7 @@ stage('Build this module') {
   exports = findFiles glob: 'mod-resource-sharing/build/libs/*.jar'
 }
 
-
+this
 
 // stage('Archive artifacts') {
 //   archiveArtifacts artifacts: 'mod-resource-sharing/build/libs/*.jar', fingerprint: true
