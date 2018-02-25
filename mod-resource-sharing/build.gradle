@@ -25,7 +25,6 @@ springBoot {
   // executable archive file.
   executable = true
   embeddedLaunchScriptProperties = [
-//    'mode': 'service',
     'inlinedConfScript': 'spring-boot.conf'
   ]
 }
