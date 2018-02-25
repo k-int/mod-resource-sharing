@@ -3,7 +3,7 @@
         "id": "resource-sharing",
         "version": "${appVersion:propertiesfile://mod-resource-sharing/gradle.properties}",
         "name": "Resource Sharing Module",
-        "warlocation": "/home/folio/backend/mod-$module.id-${module.version}.war"
+        "warlocation": "/home/folio/kint/mod-$module.id-${module.version}.jar"
     },
     "tenant": {
         "id": "diku"
