@@ -1,6 +1,6 @@
 {
     "module": {
-        "id": "resource-sharing",
+        "id": "mod-resource-sharing",
         "version": "${appVersion:propertiesfile://mod-resource-sharing/gradle.properties}",
         "name": "Resource Sharing Module",
         "warlocation": "/home/folio/kint/mod-$module.id-${module.version}.jar"
