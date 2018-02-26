@@ -1,0 +1,10 @@
+{
+  "timeouts": [5000, 180000],
+  "data": {
+    "srvcId": "$module.id-$module.version",
+    "nodeId": "10.0.2.15",
+    "descriptor": {
+      "exec": "$module.warlocation --server.port=%p > '/home/folio/kint/${module.id}.log' 2>&1"
+    }
+  }
+}

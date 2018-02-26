@@ -1,0 +1,134 @@
+{
+  "data": {
+    "id": "$module.id-$module.version",
+    "name": "$module.name",
+    "provides": [
+      {
+        "id": "resourcesharing",
+        "version": "$module.version",
+        "handlers" : [
+          {
+            "methods": [ "GET", "POST" ],
+            "pathPattern": "/requests",
+            "permissionsDesired": [ "resource-sharing.admin", "resource-sharing.user", "resource-sharing.own.read", "resource-sharing.any.read" ]
+          },
+          {
+            "methods": [ "GET" ],
+            "pathPattern": "/requests/{id}",
+            "permissionsDesired": [ "resource-sharing.admin", "resource-sharing.user", "resource-sharing.own.read", "resource-sharing.any.read" ]
+          },
+          {
+            "methods": [ "GET" ],
+            "pathPattern": "/requests/{id}/*",
+            "permissionsDesired": [ "resource-sharing.admin", "resource-sharing.user", "resource-sharing.own.read", "resource-sharing.any.read" ]
+          },
+          {
+            "methods": [ "PUT", "DELETE" ],
+            "pathPattern": "/requests/{id}",
+            "permissionsDesired": [ "resource-sharing.admin", "resource-sharing.user", "resource-sharing.own.write", "resource-sharing.any.write" ]
+          },
+          {
+            "methods": [ "GET", "POST" ],
+            "pathPattern": "/party",
+            "permissionsDesired": [ "resource-sharing.admin", "resource-sharing.user", "resource-sharing.own.read", "resource-sharing.any.read" ]
+          },
+          {
+            "methods": [ "GET" ],
+            "pathPattern": "/party/{id}",
+            "permissionsDesired": [ "resource-sharing.admin", "resource-sharing.user", "resource-sharing.own.read", "resource-sharing.any.read" ]
+          },
+          {
+            "methods": [ "PUT", "DELETE" ],
+            "pathPattern": "/party/{id}",
+            "permissionsDesired": [ "resource-sharing.admin", "resource-sharing.user", "resource-sharing.own.write", "resource-sharing.any.write" ]
+          }
+        ]
+      },
+      {
+        "id": "_tenant",
+        "version": "1.0",
+        "interfaceType": "system",
+        "handlers": [
+          {
+            "methods": [ "POST" ],
+            "pathPattern": "/_/tenant"
+          }
+        ]
+      }
+    ],
+    "permissionSets": [
+      {
+        "permissionName": "module.resource-sharing.enabled",
+        "displayName": "Resource Sharing",
+        "description": "Base property to enable any access the resource sharing module",
+        "visible": false
+      },
+      {
+        "permissionName": "resource-sharing.own.read",
+        "displayName": "Resource Sharing - Read own data",
+        "description": "Read own data within the resource sharing module",
+        "subPermissions": [
+          "module.resource-sharing.enabled"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "resource-sharing.own.write",
+        "displayName": "Resource Sharing - Edit/Delete own data",
+        "description": "Edit and Delete own data within the resource sharing module",
+        "subPermissions": [
+          "resource-sharing.own.read",
+          "module.resource-sharing.enabled"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "resource-sharing.any.read",
+        "displayName": "Resource Sharing - Read own data",
+        "description": "Read all tenant data within the resource sharing module",
+        "subPermissions": [
+          "resource-sharing.own.read",
+          "module.resource-sharing.enabled"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "resource-sharing.any.write",
+        "displayName": "Resource Sharing - Edit/Delete own data",
+        "description": "Edit and Delete all tenant data within the resource sharing module",
+        "subPermissions": [
+          "resource-sharing.any.read",
+          "resource-sharing.own.read",
+          "resource-sharing.own.write",
+          "module.resource-sharing.enabled"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "resource-sharing.user",
+        "displayName": "Resource Sharing - User",
+        "description": "Add/Edit all own tenant data within the resource sharing module",
+        "subPermissions": [
+          "resource-sharing.own.write",
+          "resource-sharing.own.read",
+          "module.resource-sharing.enabled"
+        ],
+        "visible": true
+      },
+      {
+        "permissionName": "resource-sharing.admin",
+        "displayName": "Resource Sharing - Administer",
+        "description": "Administer all tenant data within the resource sharing module",
+        "subPermissions": [
+          "resource-sharing.any.write",
+          "resource-sharing.any.read",
+          "resource-sharing.own.read",
+          "resource-sharing.own.write",
+          "resource-sharing.user",
+          "module.resource-sharing.enabled"
+        ],
+        "visible": true
+      }
+    ]
+  }
+}
