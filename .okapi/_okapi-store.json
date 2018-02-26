@@ -1,4 +1,7 @@
 {
+    "curl": {
+        "command": "curl --output /dev/null --silent"
+    },
     "module": {
         "id": "mod-resource-sharing",
         "version": "${appVersion:propertiesfile://mod-resource-sharing/gradle.properties}",
