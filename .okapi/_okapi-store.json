@@ -6,7 +6,7 @@
         "id": "mod-resource-sharing",
         "version": "${appVersion:propertiesfile://mod-resource-sharing/gradle.properties}",
         "name": "Resource Sharing Module",
-        "exec": "/home/folio/kint/${jarname}"
+        "exec": "/home/folio/kint/${module.jarname}"
     },
     "tenant": {
         "id": "diku"
