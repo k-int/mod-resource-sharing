@@ -27,7 +27,7 @@ springBoot {
   embeddedLaunchScriptProperties = [
     'mode': 'service',
     'inlinedConfScript': 'spring-boot.conf',
-    'logFolder': '/var/log/folio/okapi',
+    'logFolder': '${jarfolder}',
     'pidFolder': '${jarfolder}'
   ]
 }

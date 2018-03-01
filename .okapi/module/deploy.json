@@ -4,7 +4,7 @@
     "srvcId": "${module.id}",
     "nodeId": "10.0.2.15",
     "descriptor": {
-      "exec": "${module.exec} --server.port=%p"
+      "exec": "${module.exec} start --server.port=%p"
     }
   }
 }
