@@ -25,7 +25,8 @@ springBoot {
   // executable archive file.
   executable = true
   embeddedLaunchScriptProperties = [
-    'inlinedConfScript': 'spring-boot.conf'
+    'inlinedConfScript': 'spring-boot.conf',
+    'logFolder': '/var/log/folio/okapi'
   ]
 }
 

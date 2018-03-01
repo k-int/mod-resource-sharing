@@ -23,7 +23,21 @@ appender('STDOUT', ConsoleAppender) {
 }
 
 def targetDir = BuildSettings.TARGET_DIR
-if ( ( Environment.isDevelopmentMode() || Environment.current == Environment.TEST ) && targetDir != null) {
+def curr = Environment.current
+
+if (curr == 'okapi') {
+  
+  logger ('grails.app.init', DEBUG)
+  logger ('grails.app.controllers', DEBUG)
+  logger ('grails.app.domains', DEBUG)
+  logger ('grails.app.jobs', DEBUG)
+  logger ('grails.app.services', DEBUG)
+  logger ('com.k_int', DEBUG)
+  logger ('pubskb', DEBUG)
+  logger ('okapi', DEBUG)
+  logger ('folio', DEBUG)
+  
+} else if ( ( Environment.isDevelopmentMode() || curr == Environment.TEST ) && targetDir != null) {
 
     logger ('grails.app.init', DEBUG)
     logger ('grails.app.controllers', DEBUG)
