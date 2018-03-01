@@ -1,6 +1,6 @@
 exports = []
 
-stage('Build this module') {
+stage('Build') {
   dir('mod-resource-sharing') {
     sh './gradlew -Dgrails.env=okapi --no-daemon --console plain clean assemble'
   }

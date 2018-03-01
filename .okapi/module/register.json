@@ -1,11 +1,11 @@
 {
   "data": {
-    "id": "$module.id-$module.version",
-    "name": "$module.name",
+    "id": "${module.id}",
+    "name": "${module.name}",
     "provides": [
       {
-        "id": "resourcesharing",
-        "version": "$module.version",
+        "id": "${module.name}",
+        "version": "${module.version}",
         "handlers" : [
           {
             "methods": [ "GET", "POST" ],

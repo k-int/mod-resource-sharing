@@ -1,8 +1,8 @@
 {
   "uri": "/_/discovery/modules",
   "data": {
-    "srvcId": "$module.id-$module.version",
-    "instId": "localhost-$module.id-$module.version",
+    "srvcId": "${module.id}",
+    "instId": "localhost-${srvcId}",
     "url": "$hostAddress"
   }
 }

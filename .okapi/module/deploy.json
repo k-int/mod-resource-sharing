@@ -1,7 +1,7 @@
 {
   "timeouts": [5000, 180000],
   "data": {
-    "srvcId": "$module.id-$module.version",
+    "srvcId": "${module.id}",
     "nodeId": "10.0.2.15",
     "descriptor": {
       "exec": "${module.exec} --server.port=%p"
