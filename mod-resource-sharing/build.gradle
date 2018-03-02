@@ -121,6 +121,12 @@ grails {
 	}
 }
 
+final String version_regex = /^(((\d+)\.\d+)\.\d+)(-([a-z]+[\w]*))?$/
+
+jar {
+  version "${version.replaceAll(version_regex, '$2')}"
+}
+
 buildProperties.doLast {
   
   // Find the right file
@@ -137,7 +143,7 @@ buildProperties.doLast {
   // Load the app version
   String version = properties.getProperty('info.app.version')
   def versionParts
-  if (version && (versionParts = version =~ /^(((\d+)\.\d+)\.\d+)(-([a-z]+[\w]*))?$/)) {
+  if (version && (versionParts = version =~ version_regex)) {
     versionParts[0].with {
       properties.setProperty('info.app.majorVersion', it[3])
       properties.setProperty('info.app.minorVersion', it[2])
