@@ -68,7 +68,7 @@
         "displayName": "Resource Sharing - Read own data",
         "description": "Read own data within the resource sharing module",
         "subPermissions": [
-          "module.@k-int/resource-sharing.enabled"
+          "module.@k-int\/resource-sharing.enabled"
         ],
         "visible": false
       },
@@ -78,7 +78,7 @@
         "description": "Edit and Delete own data within the resource sharing module",
         "subPermissions": [
           "resource-sharing.own.read",
-          "module.@k-int/resource-sharing.enabled"
+          "module.@k-int\/resource-sharing.enabled"
         ],
         "visible": false
       },
@@ -88,7 +88,7 @@
         "description": "Read all tenant data within the resource sharing module",
         "subPermissions": [
           "resource-sharing.own.read",
-          "module.@k-int/resource-sharing.enabled"
+          "module.@k-int\/resource-sharing.enabled"
         ],
         "visible": false
       },
@@ -100,7 +100,7 @@
           "resource-sharing.any.read",
           "resource-sharing.own.read",
           "resource-sharing.own.write",
-          "module.@k-int/resource-sharing.enabled"
+          "module.@k-int\/resource-sharing.enabled"
         ],
         "visible": false
       },
@@ -111,7 +111,7 @@
         "subPermissions": [
           "resource-sharing.own.write",
           "resource-sharing.own.read",
-          "module.@k-int/resource-sharing.enabled"
+          "module.@k-int\/resource-sharing.enabled"
         ],
         "visible": true
       },
@@ -125,7 +125,7 @@
           "resource-sharing.own.read",
           "resource-sharing.own.write",
           "resource-sharing.user",
-          "module.@k-int/resource-sharing.enabled"
+          "module.@k-int\/resource-sharing.enabled"
         ],
         "visible": true
       }
