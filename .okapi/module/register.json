@@ -58,7 +58,7 @@
     ],
     "permissionSets": [
       {
-        "permissionName": "module.${module.name}.enabled",
+        "permissionName": "module.@k-int\/resource-sharing.enabled",
         "displayName": "Resource Sharing",
         "description": "Base property to enable any access the resource sharing module",
         "visible": false
