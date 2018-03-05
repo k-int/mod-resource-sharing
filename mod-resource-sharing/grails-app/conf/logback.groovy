@@ -25,13 +25,14 @@ appender('STDOUT', ConsoleAppender) {
 def targetDir = BuildSettings.TARGET_DIR
 def curr = Environment.current
 
-if (curr == 'okapi') {
+if (curr.name == 'okapi') {
   
   logger ('grails.app.init', DEBUG)
   logger ('grails.app.controllers', DEBUG)
   logger ('grails.app.domains', DEBUG)
   logger ('grails.app.jobs', DEBUG)
   logger ('grails.app.services', DEBUG)
+  logger ('com.k_int.folio.rs', DEBUG)
   logger ('com.k_int', DEBUG)
   logger ('pubskb', DEBUG)
   logger ('okapi', DEBUG)
