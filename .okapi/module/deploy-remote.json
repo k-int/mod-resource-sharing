@@ -2,7 +2,7 @@
   "uri": "/_/discovery/modules",
   "data": {
     "srvcId": "${module.id}",
-    "instId": "localhost-${srvcId}",
-    "url": "$hostAddress"
+    "instId": "localhost-${module.id}",
+    "url": "${hostAddress}"
   }
 }
