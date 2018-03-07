@@ -17,19 +17,6 @@ Vagrant.configure(2) do |config|
   config.vm.box = "folio/testing-backend"
   config.vm.box_version = "5.0.0-20180305.481"
   
-  # Increase ports necesary in okapi
-  
-  config.vm.synced_folder "vagrant", "/home/folio/kint", create: true, group: 'folio', owner:'okapi'
-  
-  # Start our service. Adding this here means that the up command waits for completion
-  config.vm.provision "shell",  privileged: true, run: "always", inline: <<-SHELL
-    chown -R okapi:folio /home/folio/kint
-    chmod -R 774 /home/folio/kint
-    chmod u+s,g+s /home/folio/kint
-    cat /home/folio/kint/kint-modules.service > /etc/systemd/system/kint-modules.service
-    systemctl daemon-reload
-  SHELL
-  
   # Change the OKAPI config if needed.
   config.vm.provision "shell", privileged: true, inline: <<-SHELL
     
@@ -43,14 +30,14 @@ Vagrant.configure(2) do |config|
       echo "Enabled K-Int module service"
     fi
   SHELL
+
+  # Reload the VM
+  config.vm.provision :reload
   
   # Start our service. Adding this here means that the up command waits for completion
   config.vm.provision "shell",  privileged: true, run: "always", inline: <<-SHELL
     systemctl start kint-modules
   SHELL
-
-  # Reload the VM
-  config.vm.provision :reload
     
 
   # Disable automatic box update checking. If you disable this, then
