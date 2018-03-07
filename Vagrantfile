@@ -16,28 +16,6 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "folio/testing-backend"
   config.vm.box_version = "5.0.0-20180305.481"
-  
-  # Change the OKAPI config if needed.
-  config.vm.provision "shell", privileged: true, inline: <<-SHELL
-    
-    grep -q '^port_end\s*=\s*9151\s*$' /etc/folio/okapi/okapi.conf
-    if [ $? -eq 0 ]
-    then
-      sed -i 's/^port_end\s*=\s*9151\s*/port_end=9161/g' /etc/folio/okapi/okapi.conf
-      echo "Changed OKAPI config"
-    
-      systemctl enable kint-modules
-      echo "Enabled K-Int module service"
-    fi
-  SHELL
-
-  # Reload the VM
-  config.vm.provision :reload
-  
-  # Start our service. Adding this here means that the up command waits for completion
-  config.vm.provision "shell",  privileged: true, run: "always", inline: <<-SHELL
-    systemctl start kint-modules
-  SHELL
     
 
   # Disable automatic box update checking. If you disable this, then
