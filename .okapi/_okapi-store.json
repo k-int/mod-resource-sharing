@@ -1,9 +1,19 @@
 {
+    "info": {
+        "app": {
+            "name": "${info.app.name:propertiesfile://mod-resource-sharing/build/resources/main/META-INF/grails.build.info}",
+            "version": "${info.app.version:propertiesfile://mod-resource-sharing/build/resources/main/META-INF/grails.build.info}",
+            "minorVersion": "${info.app.minorVersion:propertiesfile://mod-resource-sharing/build/resources/main/META-INF/grails.build.info}"
+        }
+    },
+    "curl": {
+        "command": "curl --output /dev/null --silent"
+    },
     "module": {
-        "id": "resource-sharing",
-        "version": "${appVersion:propertiesfile://mod-resource-sharing/gradle.properties}",
-        "name": "Resource Sharing Module",
-        "warlocation": "/home/folio/backend/mod-$module.id-${module.version}.war"
+        "id": "${info.app.name}-${info.app.version}",
+        "version": "${info.app.minorVersion}",
+        "name": "${info.app.name}",
+        "exec": "/home/folio/kint/${module.jarname}"
     },
     "tenant": {
         "id": "diku"

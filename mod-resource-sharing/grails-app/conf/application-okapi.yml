@@ -12,7 +12,7 @@ dataSource:
   dialect: org.hibernate.dialect.PostgreSQLDialect
   schemaHandler: okapi.OkapiSchemaHandler
   properties:
-      jmxEnabled: true
+      jmxEnabled: false
       initialSize: 5
       maxActive: 50
       minIdle: 5
@@ -22,10 +22,14 @@ dataSource:
       timeBetweenEvictionRunsMillis: 5000
       minEvictableIdleTimeMillis: 60000
       validationQuery: SELECT 1
-      validationQueryTimeout: 3
-      validationInterval: 15000
+      validationInterval: 30000
       testOnBorrow: true
       testWhileIdle: true
       testOnReturn: false
+      removeAbandoned: true
+      removeAbandonedTimeout: 60
+      abandonWhenPercentageFull: 50
       jdbcInterceptors: ConnectionState
       defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+      
+      
