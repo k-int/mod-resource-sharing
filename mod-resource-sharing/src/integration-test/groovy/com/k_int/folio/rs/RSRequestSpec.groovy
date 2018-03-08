@@ -17,7 +17,7 @@ import okapi.OkapiHeaders
 @Stepwise
 class RSRequestSpec extends GebSpec {
   
-  final authHeaders = {
+  final Closure authHeaders = {
     header OkapiHeaders.TOKEN, 'dummy'
     header OkapiHeaders.USER_ID, 'dummy'
     header OkapiHeaders.PERMISSIONS, '[ "resource-sharing.admin", "resource-sharing.user", "resource-sharing.own.read", "resource-sharing.any.read"]'
@@ -37,7 +37,7 @@ class RSRequestSpec extends GebSpec {
         when:"We post a new tenant request to the OKAPI controller"
             def resp = restBuilder().post("$baseUrl/_/tenant") {
               header 'X-Okapi-Tenant', 'RSTestTenantA'
-              authHeaders()
+              authHeaders.rehydrate(delegate, owner, thisObject)()
             }
 
         then:"The response is correct"
@@ -51,7 +51,7 @@ class RSRequestSpec extends GebSpec {
         when:"We post a new tenant request to the OKAPI controller"
             def resp = restBuilder().post("$baseUrl/_/tenant") {
               header 'X-Okapi-Tenant', 'RSTestTenantB'
-              authHeaders()
+              authHeaders.rehydrate(delegate, owner, thisObject)()
             }
 
         then:"The response is correct"
@@ -75,7 +75,7 @@ class RSRequestSpec extends GebSpec {
 
         def resp = restBuilder().post("$baseUrl/locations") {
           header 'X-Okapi-Tenant', 'RSTestTenantA'
-              authHeaders()
+          authHeaders.rehydrate(delegate, owner, thisObject)()
           contentType 'application/json'
           accept 'application/json'
           json json_location
@@ -106,7 +106,7 @@ class RSRequestSpec extends GebSpec {
         // Retrieve the json list of all locations this tenant knows about
         def location_info = restBuilder().get("$baseUrl/locations/index") {
           header 'X-Okapi-Tenant', tenant
-          authHeaders()
+          authHeaders.rehydrate(delegate, owner, thisObject)()
           contentType 'application/json'
           accept 'application/json'
         }
@@ -151,7 +151,7 @@ class RSRequestSpec extends GebSpec {
 
         def resp = restBuilder().post("$baseUrl/requests") {
           header 'X-Okapi-Tenant', 'RSTestTenantA'
-          authHeaders()
+          authHeaders.rehydrate(delegate, owner, thisObject)()
           contentType 'application/json'
           json request_details
         }
@@ -178,7 +178,7 @@ class RSRequestSpec extends GebSpec {
 
             def resp = restBuilder().delete("$baseUrl/_/tenant") {
               header 'X-Okapi-Tenant', tenant_id
-              authHeaders()
+              authHeaders.rehydrate(delegate, owner, thisObject)()
             }
 
             resp.status == OK.value()
