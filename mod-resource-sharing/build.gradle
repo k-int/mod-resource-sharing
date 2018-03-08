@@ -1,7 +1,9 @@
 buildscript {
     repositories {
         mavenLocal()
+        mavenCentral()
         maven { url "https://repo.grails.org/grails/core" }
+        maven { url "http://nexus.k-int.com/content/repositories/releases/"};
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -11,12 +13,14 @@ buildscript {
     }
 }
 
+println "Do \"git submodule update --init --recursive\" on first checkout to fetch other modules"
+println "Do \"git submodule update --recursive\" if you're missing deps"
+
 version "$appVersion"
 group "com.k_int.folio"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
-//apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"org.grails.plugins.views-json"
 
@@ -41,8 +45,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
-//    compile "org.springframework.boot:spring-boot-starter-actuator"
-//    compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.springframework.boot:spring-boot-starter-undertow"
     compile "org.grails:grails-plugin-url-mappings"
     compile "org.grails:grails-plugin-rest"
@@ -51,7 +53,6 @@ dependencies {
     compile "org.grails:grails-plugin-services"
     compile "org.grails:grails-plugin-datasource"
     compile "org.grails:grails-plugin-databinding"
-//    compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
     compile "org.grails.plugins:cache"
     compile "org.grails.plugins:async"
@@ -64,9 +65,9 @@ dependencies {
     compile 'org.liquibase:liquibase-core:3.5.3'
     console "org.grails:grails-console"
     profile "org.grails.profiles:rest-api"
-//    runtime "org.glassfish.web:el-impl:2.1.2-b03"
     runtime "com.h2database:h2"
-    runtime 'postgresql:postgresql:9.1-901-1.jdbc4'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.1'
     runtime "org.apache.tomcat:tomcat-jdbc"
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"

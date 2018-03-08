@@ -9,11 +9,13 @@ class Party implements MultiTenant<Party> {
   String name
 
   static hasMany = [
-    memberships:Member
+    memberships:Member,
+    symbols:ResourceSharingSymbol
   ]
 
   static mappedBy = [
-    memberships:'member'
+    memberships:'member',
+    symbols:'owner'
   ]
 
   static constraints = {

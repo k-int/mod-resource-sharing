@@ -1,5 +1,13 @@
 # mod-resource-sharing
 
+# GIT Submodule dependencies
+
+Run
+
+    git submodule update --init --recursive
+
+After first checkout to pull dependent submodules
+
 
 # Database setup
 
@@ -10,6 +18,13 @@ CREATE USER folio WITH PASSWORD 'folio' SUPERUSER CREATEDB INHERIT LOGIN;
 
 CREATE DATABASE foliotest;
 GRANT ALL PRIVILEGES ON DATABASE foliotest to folio;
+
+## Dockerized postgres
+
+Get a postgres session in dockerized pgsql using
+
+    docker exec -it your_pg_container_name psql -U postgres
+
 
 # Testing
 

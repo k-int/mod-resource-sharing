@@ -21,11 +21,11 @@ class RSRequestSpec extends GebSpec {
     }
 
 
-    // Set up a new tenant called RSTestTenant
-    void "Set up test tenant"() {
+    // Set up a new tenant called RSTestTenantA
+    void "Set up test tenant A"() {
         when:"We post a new tenant request to the OKAPI controller"
             def resp = restBuilder().post("$baseUrl/_/tenant") {
-              header 'X-Okapi-Tenant', 'RSTestTenant'
+              header 'X-Okapi-Tenant', 'RSTestTenantA'
             }
 
         then:"The response is correct"
@@ -34,25 +34,46 @@ class RSRequestSpec extends GebSpec {
             // resp.json.message == 'Welcome to Grails!'
     }
 
-    void "Set up some test locations"(code,name) {
+    // Set up a new tenant called RSTestTenantB
+    void "Set up test tenant B"() {
+        when:"We post a new tenant request to the OKAPI controller"
+            def resp = restBuilder().post("$baseUrl/_/tenant") {
+              header 'X-Okapi-Tenant', 'RSTestTenantB'
+            }
+
+        then:"The response is correct"
+            resp.status == OK.value()
+            // resp.headers[CONTENT_TYPE] == ['application/json;charset=UTF-8']
+            // resp.json.message == 'Welcome to Grails!'
+    }
+
+
+    void "Set up some test locations"(tenant,code,name) {
       expect:
 
         def json_location = [ 'code' : code, 'name' : name ]
         def resp = restBuilder().post("$baseUrl/locations") {
-          header 'X-Okapi-Tenant', 'RSTestTenant'
+          header 'X-Okapi-Tenant', 'RSTestTenantA'
           contentType 'application/json'
           json json_location
         }
         System.err.println("RESPONSE:: ${resp.json}");
-        resp.status == CREATED.value()
+        resp.status == OK.value()
         
 
       // Use a GEB Data Table to load each record
       where:
-        code | name
-        'croo' | 'Crookes community library'
-        'stan' | 'Stannington Library'
-        'upper' | 'Upperthorpe Library'
+        tenant | code | name
+        'RSTestTenantA' | 'croo' | 'Crookes community library'
+        'RSTestTenantA' | 'stan' | 'Stannington Library'
+        'RSTestTenantA' | 'upper' | 'Upperthorpe Library'
+        'RSTestTenantA' | 'TestA' | 'Main Library for Test Tenant A'
+        'RSTestTenantA' | 'TestB' | 'Main Library for Test Tenant B'
+        'RSTestTenantB' | 'croo' | 'Crookes community library'
+        'RSTestTenantB' | 'stan' | 'Stannington Library'
+        'RSTestTenantB' | 'upper' | 'Upperthorpe Library'
+        'RSTestTenantB' | 'TestA' | 'Main Library for Test Tenant A'
+        'RSTestTenantB' | 'TestB' | 'Main Library for Test Tenant B'
     }
 
     void "User Makes a request"() {
@@ -71,20 +92,20 @@ class RSRequestSpec extends GebSpec {
         ]
 
         def resp = restBuilder().post("$baseUrl/requests") {
-          header 'X-Okapi-Tenant', 'RSTestTenant'
+          header 'X-Okapi-Tenant', 'RSTestTenantA'
           contentType 'application/json'
           json request_details
         }
 
       then: "System creates a new request record"
         System.err.println("RESPONSE:: ${resp.json}");
-        resp.status == CREATED.value()
+        resp.status == OK.value()
     }
 
     void "User lists their requests"() {
       when:"We ask the system to list requests for our user"
         def resp = restBuilder().get("$baseUrl/requests/search?q=1234-5678-1234-5533-4545") {
-          header 'X-Okapi-Tenant', 'RSTestTenant'
+          header 'X-Okapi-Tenant', 'RSTestTenantA'
         }
 
       then: "The system responds with the request we created above"
@@ -95,7 +116,7 @@ class RSRequestSpec extends GebSpec {
     void "Delete the tenant"() {
         when:"We post a delete request to the OKAPI controller"
             def resp = restBuilder().delete("$baseUrl/_/tenant") {
-              header 'X-Okapi-Tenant', 'RSTestTenant'
+              header 'X-Okapi-Tenant', 'RSTestTenantA'
             }
 
         then:"The response is correct"
