@@ -83,7 +83,7 @@ class RSRequestSpec extends GebSpec {
  
         logger.debug("Create Party Response:: ${resp} ${resp.json}");
 
-        resp.status == OK.value()
+        resp.status == CREATED.value()
         
 
       // Use a GEB Data Table to load each record
@@ -162,7 +162,7 @@ class RSRequestSpec extends GebSpec {
 
       then: "System creates a new request record"
         System.err.println("RESPONSE:: ${resp.json}");
-        resp.status == OK.value()
+        resp.status == CREATED.value()
     }
 
     void "User lists their requests"() {
