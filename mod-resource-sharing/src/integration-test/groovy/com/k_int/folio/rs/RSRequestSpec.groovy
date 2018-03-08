@@ -48,7 +48,14 @@ class RSRequestSpec extends GebSpec {
     }
 
 
-    void "Set up some test locations"(tenant,code,name) {
+    /**
+     * the RS module allows institutions to share resources. Institutions are modelled as party entities.
+     * A party can have many symbols. here we set up in each of our two tennants records that describe
+     * ourselves and our remote parties. Our test setup establishes two tenants each of which know about 
+     * themselves and the other party.
+     */
+    void "Set up some test organisations"(tenant,code,name) {
+
       expect:
 
         def json_location = [ 'code' : code, 'name' : name ]
@@ -57,23 +64,47 @@ class RSRequestSpec extends GebSpec {
           contentType 'application/json'
           json json_location
         }
-        System.err.println("RESPONSE:: ${resp.json}");
+ 
+        System.err.println("Create Party Response:: ${resp.encoding} ${resp.json} ${resp.text} ${resp.xml}");
         resp.status == OK.value()
         
 
       // Use a GEB Data Table to load each record
       where:
         tenant | code | name
-        'RSTestTenantA' | 'croo' | 'Crookes community library'
-        'RSTestTenantA' | 'stan' | 'Stannington Library'
-        'RSTestTenantA' | 'upper' | 'Upperthorpe Library'
         'RSTestTenantA' | 'TestA' | 'Main Library for Test Tenant A'
         'RSTestTenantA' | 'TestB' | 'Main Library for Test Tenant B'
-        'RSTestTenantB' | 'croo' | 'Crookes community library'
-        'RSTestTenantB' | 'stan' | 'Stannington Library'
-        'RSTestTenantB' | 'upper' | 'Upperthorpe Library'
         'RSTestTenantB' | 'TestA' | 'Main Library for Test Tenant A'
         'RSTestTenantB' | 'TestB' | 'Main Library for Test Tenant B'
+    }
+
+    /**
+     * An institution can have many symbols, but here we just set up defaults. Our two institutions, TestA and TestB
+     * both have 1 symbol testa and testb. TestA also has an alternate symbol.
+     */
+    void "Set up some test symbols"(tenant,party,code,name) {
+      expect:
+
+        def json_location = [ 'code' : code, 'name' : name ]
+        // def resp = restBuilder().post("$baseUrl/locations") {
+        //   header 'X-Okapi-Tenant', 'RSTestTenantA'
+        //   contentType 'application/json'
+        //   json json_location
+        // }
+        // System.err.println("RESPONSE:: ${resp.json}");
+        // resp.status == OK.value()
+        1==1;
+        
+
+      // Use a GEB Data Table to load each record
+      where:
+        tenant | party | code | name
+        'RSTestTenantA' | 'TestA' | 'testa'      | 'Org Test A, central library symbol'
+        'RSTestTenantA' | 'TestA' | 'testa-alt1' | 'Org Test A, Annex Library'
+        'RSTestTenantA' | 'TestB' | 'testb'      | 'Org Test B, central library symbol'
+        'RSTestTenantB' | 'TestA' | 'testa'      | 'Org Test A, central library symbol'
+        'RSTestTenantB' | 'TestA' | 'testa-alt1' | 'Org Test A, Annex Library'
+        'RSTestTenantB' | 'TestB' | 'testb'      | 'Org Test B, central library symbol'
     }
 
     void "User Makes a request"() {
@@ -113,15 +144,20 @@ class RSRequestSpec extends GebSpec {
 
     }
 
-    void "Delete the tenant"() {
-        when:"We post a delete request to the OKAPI controller"
+    void "Delete the tenants"(tenant_id, note) {
+
+        expect:"post delete request to the OKAPI controller for "+tenant_id+" results in OK and deleted tennant"
+
             def resp = restBuilder().delete("$baseUrl/_/tenant") {
-              header 'X-Okapi-Tenant', 'RSTestTenantA'
+              header 'X-Okapi-Tenant', tenant_id
             }
 
-        then:"The response is correct"
             resp.status == OK.value()
-            // resp.headers[CONTENT_TYPE] == ['application/json;charset=UTF-8']
+
+        where:
+          tenant_id | note
+          'RSTestTenantA' | 'note'
+          'RSTestTenantB' | 'note'
     }
 
     RestBuilder restBuilder() {
