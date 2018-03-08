@@ -10,6 +10,7 @@ class ApplicationController implements PluginManagerAware {
     GrailsPluginManager pluginManager
 
     def index() {
+      log.deubg("ApplicationController::index() ${params}");
         [grailsApplication: grailsApplication, pluginManager: pluginManager]
     }
 }

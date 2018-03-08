@@ -16,8 +16,12 @@ the following setup
 
 CREATE USER folio WITH PASSWORD 'folio' SUPERUSER CREATEDB INHERIT LOGIN;
 
+CREATE DATABASE foliodev;
+GRANT ALL PRIVILEGES ON DATABASE foliodev to folio;
 CREATE DATABASE foliotest;
 GRANT ALL PRIVILEGES ON DATABASE foliotest to folio;
+CREATE DATABASE folio;
+GRANT ALL PRIVILEGES ON DATABASE folio to folio;
 
 ## Dockerized postgres
 

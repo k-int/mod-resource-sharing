@@ -35,7 +35,7 @@ if (curr.name == 'okapi') {
   logger ('com.k_int.folio.rs', DEBUG)
   logger ('com.k_int', DEBUG)
   logger ('pubskb', DEBUG)
-  logger ('okapi', DEBUG)
+  logger ('okapi', INFO)
   logger ('folio', DEBUG)
   
 } else if ( ( Environment.isDevelopmentMode() || curr == Environment.TEST ) && targetDir != null) {
@@ -47,7 +47,7 @@ if (curr.name == 'okapi') {
     logger ('grails.app.services', DEBUG)
     logger ('com.k_int', DEBUG)
     logger ('pubskb', DEBUG)
-    logger ('okapi', DEBUG)
+    logger ('okapi', INFO)
     logger ('folio', DEBUG)
 
     appender("FULL_STACKTRACE", FileAppender) {

@@ -8,11 +8,16 @@ import static org.springframework.http.HttpStatus.*
 import spock.lang.*
 import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import okapi.OkapiHeaders
 
 @Integration
 // @Rollback
 @Stepwise
 class RSRequestSpec extends GebSpec {
+
+  final static Logger logger = LoggerFactory.getLogger(RSRequestSpec.class);
 
     def setup() {
     }
@@ -26,6 +31,9 @@ class RSRequestSpec extends GebSpec {
         when:"We post a new tenant request to the OKAPI controller"
             def resp = restBuilder().post("$baseUrl/_/tenant") {
               header 'X-Okapi-Tenant', 'RSTestTenantA'
+              header OkapiHeaders.TOKEN, 'dummy'
+              header OkapiHeaders.USER_ID, 'dummy'
+              header OkapiHeaders.PERMISSIONS, '["resource-sharing.admin","rs-admin"]'
             }
 
         then:"The response is correct"
@@ -39,6 +47,9 @@ class RSRequestSpec extends GebSpec {
         when:"We post a new tenant request to the OKAPI controller"
             def resp = restBuilder().post("$baseUrl/_/tenant") {
               header 'X-Okapi-Tenant', 'RSTestTenantB'
+              header OkapiHeaders.TOKEN, 'dummy'
+              header OkapiHeaders.USER_ID, 'dummy'
+              header OkapiHeaders.PERMISSIONS, '["resource-sharing.admin","rs-admin"]'
             }
 
         then:"The response is correct"
@@ -59,13 +70,19 @@ class RSRequestSpec extends GebSpec {
       expect:
 
         def json_location = [ 'code' : code, 'name' : name ]
+
         def resp = restBuilder().post("$baseUrl/locations") {
           header 'X-Okapi-Tenant', 'RSTestTenantA'
+          header OkapiHeaders.TOKEN, 'dummy'
+          header OkapiHeaders.USER_ID, 'dummy'
+          header OkapiHeaders.PERMISSIONS, '["resource-sharing.admin","rs-admin"]'
           contentType 'application/json'
+          accept 'application/json'
           json json_location
         }
  
-        System.err.println("Create Party Response:: ${resp.encoding} ${resp.json} ${resp.text} ${resp.xml}");
+        logger.debug("Create Party Response:: ${resp} ${resp.json}");
+
         resp.status == OK.value()
         
 
@@ -83,9 +100,21 @@ class RSRequestSpec extends GebSpec {
      * both have 1 symbol testa and testb. TestA also has an alternate symbol.
      */
     void "Set up some test symbols"(tenant,party,code,name) {
+
       expect:
 
-        def json_location = [ 'code' : code, 'name' : name ]
+        // Retrieve the json list of all locations this tenant knows about
+        def location_info = restBuilder().get("$baseUrl/locations/index") {
+          header 'X-Okapi-Tenant', tenant
+          header OkapiHeaders.TOKEN, 'dummy'
+          header OkapiHeaders.USER_ID, 'dummy'
+          header OkapiHeaders.PERMISSIONS, '["resource-sharing.admin","rs-admin"]'
+          contentType 'application/json'
+          accept 'application/json'
+        }
+
+        logger.info("Location data: ${location_info}");
+
         // def resp = restBuilder().post("$baseUrl/locations") {
         //   header 'X-Okapi-Tenant', 'RSTestTenantA'
         //   contentType 'application/json'
@@ -124,6 +153,9 @@ class RSRequestSpec extends GebSpec {
 
         def resp = restBuilder().post("$baseUrl/requests") {
           header 'X-Okapi-Tenant', 'RSTestTenantA'
+          header OkapiHeaders.TOKEN, 'dummy'
+          header OkapiHeaders.USER_ID, 'dummy'
+          header OkapiHeaders.PERMISSIONS, '["resource-sharing.admin"]'
           contentType 'application/json'
           json request_details
         }
@@ -150,6 +182,9 @@ class RSRequestSpec extends GebSpec {
 
             def resp = restBuilder().delete("$baseUrl/_/tenant") {
               header 'X-Okapi-Tenant', tenant_id
+              header OkapiHeaders.TOKEN, 'dummy'
+              header OkapiHeaders.USER_ID, 'dummy'
+              header OkapiHeaders.PERMISSIONS, '["resource-sharing.admin"]'
             }
 
             resp.status == OK.value()
