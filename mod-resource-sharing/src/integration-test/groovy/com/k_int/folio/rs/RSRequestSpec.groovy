@@ -16,6 +16,8 @@ import okapi.OkapiHeaders
 // @Rollback
 @Stepwise
 class RSRequestSpec extends GebSpec {
+
+  private Map test_info = [:]
   
   final Closure authHeaders = {
     header OkapiHeaders.TOKEN, 'dummy'
@@ -82,6 +84,14 @@ class RSRequestSpec extends GebSpec {
         }
  
         logger.debug("Create Party Response:: ${resp} ${resp.json}");
+        if ( test_info[tenant] == null ) { test_info[tenant] = [locations:[:]] }
+
+        if ( test_info[tenant] != null ) {
+          if ( test_info[tenant].locations[resp.json.code] == null ) { test_info[tenant].locations[resp.json.code] = [:] }
+          test_info[tenant].locations[resp.json.code].id = resp.json.id
+          test_info[tenant].locations[resp.json.code].name = resp.json.name
+          test_info[tenant].locations[resp.json.code].code = resp.json.code
+        }
 
         resp.status == CREATED.value()
         
@@ -104,14 +114,14 @@ class RSRequestSpec extends GebSpec {
       expect:
 
         // Retrieve the json list of all locations this tenant knows about
-        def location_info = restBuilder().get("$baseUrl/locations/index") {
+        def location_info = restBuilder().get("$baseUrl/locations") {
           header 'X-Okapi-Tenant', tenant
           authHeaders.rehydrate(delegate, owner, thisObject)()
           contentType 'application/json'
           accept 'application/json'
         }
 
-        logger.info("Location data: ${location_info}");
+        // logger.info("Location data: ${location_info.json}");
 
         // def resp = restBuilder().post("$baseUrl/locations") {
         //   header 'X-Okapi-Tenant', 'RSTestTenantA'
@@ -139,7 +149,7 @@ class RSRequestSpec extends GebSpec {
       when: "We submit a new request"
         def request_details = [
           itemType:'serial',
-          title:'Americal Libraries',
+          title:'American Libraries',
           subTitle:'THE MAGAZINE OF THE AMERICAN LIBRARY ASSOCIATION',
           volume:'48',
           issue:'3/4',
@@ -161,14 +171,26 @@ class RSRequestSpec extends GebSpec {
         resp.status == CREATED.value()
     }
 
+
+    /**
+     *  /requests uses the grails resource framework, and extends OkapiTenantAwareController.
+     *  this means that the index method gets simpleLookupService.lookup functionality, allowing searching
+     *  by persistent properties. Unknown methods map to listing all items which map to the index action.
+     *  
+     */
     void "User lists their requests"() {
       when:"We ask the system to list requests for our user"
-        def resp = restBuilder().get("$baseUrl/requests/search?q=1234-5678-1234-5533-4545") {
+        def resp = restBuilder().get("$baseUrl/requests?title=American Libraries") {
           header 'X-Okapi-Tenant', 'RSTestTenantA'
+          authHeaders.rehydrate(delegate, owner, thisObject)()
         }
+        logger.debug("Search result: ${resp.json}");
 
       then: "The system responds with the request we created above"
         resp.status == OK.value()
+        // The search should only return 1 record - the one for the American Libraries article
+        resp.json.size() == 1;
+        resp.json[0].title=='American Libraries'
 
     }
 

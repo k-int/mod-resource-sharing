@@ -1,6 +1,6 @@
 databaseChangeLog = {
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-1") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-1") {
         createTable(tableName: "rs_party") {
             column(name: "pty_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -20,7 +20,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-2") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-2") {
         createTable(tableName: "rs_protocol") {
             column(name: "prot_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -38,7 +38,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-3") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-3") {
         createTable(tableName: "rs_protocol_action") {
             column(name: "pa_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -60,7 +60,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-4") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-4") {
         createTable(tableName: "rs_protocol_message") {
             column(name: "pm_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -88,7 +88,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-5") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-5") {
         createTable(tableName: "rs_protocol_request") {
             column(name: "pr_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -116,7 +116,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-6") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-6") {
         createTable(tableName: "rs_req") {
             column(name: "rsr_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -182,7 +182,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-7") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-7") {
         createTable(tableName: "rs_resource") {
             column(name: "rs_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -202,7 +202,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-8") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-8") {
         createTable(tableName: "rs_service") {
             column(name: "rss_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -216,7 +216,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-9") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-9") {
         createTable(tableName: "rs_state") {
             column(name: "rss_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -238,7 +238,7 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-10") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-10") {
         createTable(tableName: "rs_state_model") {
             column(name: "rssm_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -256,7 +256,25 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-11") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-11") {
+        createTable(tableName: "rs_symbol") {
+            column(name: "rss_id", type: "VARCHAR(36)") {
+                constraints(nullable: "false")
+            }
+
+            column(name: "version", type: "BIGINT") {
+                constraints(nullable: "false")
+            }
+
+            column(name: "rss_owner_party_fk", type: "VARCHAR(36)") {
+                constraints(nullable: "false")
+            }
+
+            column(name: "rss_symbol", type: "VARCHAR(255)")
+        }
+    }
+
+    changeSet(author: "ibbo (generated)", id: "1520590085275-12") {
         createTable(tableName: "rs_transition") {
             column(name: "rst_id", type: "VARCHAR(36)") {
                 constraints(nullable: "false")
@@ -280,99 +298,107 @@ databaseChangeLog = {
         }
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-12") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-13") {
         addPrimaryKey(columnNames: "pty_id", constraintName: "rs_partyPK", tableName: "rs_party")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-13") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-14") {
         addPrimaryKey(columnNames: "prot_id", constraintName: "rs_protocolPK", tableName: "rs_protocol")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-14") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-15") {
         addPrimaryKey(columnNames: "pa_id", constraintName: "rs_protocol_actionPK", tableName: "rs_protocol_action")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-15") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-16") {
         addPrimaryKey(columnNames: "pm_id", constraintName: "rs_protocol_messagePK", tableName: "rs_protocol_message")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-16") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-17") {
         addPrimaryKey(columnNames: "pr_id", constraintName: "rs_protocol_requestPK", tableName: "rs_protocol_request")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-17") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-18") {
         addPrimaryKey(columnNames: "rsr_id", constraintName: "rs_reqPK", tableName: "rs_req")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-18") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-19") {
         addPrimaryKey(columnNames: "rs_id", constraintName: "rs_resourcePK", tableName: "rs_resource")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-19") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-20") {
         addPrimaryKey(columnNames: "rss_id", constraintName: "rs_servicePK", tableName: "rs_service")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-20") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-21") {
         addPrimaryKey(columnNames: "rss_id", constraintName: "rs_statePK", tableName: "rs_state")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-21") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-22") {
         addPrimaryKey(columnNames: "rssm_id", constraintName: "rs_state_modelPK", tableName: "rs_state_model")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-22") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-23") {
+        addPrimaryKey(columnNames: "rss_id", constraintName: "rs_symbolPK", tableName: "rs_symbol")
+    }
+
+    changeSet(author: "ibbo (generated)", id: "1520590085275-24") {
         addPrimaryKey(columnNames: "rst_id", constraintName: "rs_transitionPK", tableName: "rs_transition")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-23") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-25") {
         addForeignKeyConstraint(baseColumnNames: "pm_transition", baseTableName: "rs_protocol_message", constraintName: "FK1ek1lnsqcr8hps2f56pdb8amv", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "rst_id", referencedTableName: "rs_transition")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-24") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-26") {
         addForeignKeyConstraint(baseColumnNames: "pr_current_state_fk", baseTableName: "rs_protocol_request", constraintName: "FK9i86rvk3yu1o09eoa7af74ogy", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "rss_id", referencedTableName: "rs_state")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-25") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-27") {
         addForeignKeyConstraint(baseColumnNames: "protocol_id", baseTableName: "rs_protocol_action", constraintName: "FKd3lnejtl0o6fx61h8msmmv390", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "prot_id", referencedTableName: "rs_protocol")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-26") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-28") {
         addForeignKeyConstraint(baseColumnNames: "pr_service_fk", baseTableName: "rs_protocol_request", constraintName: "FKdym0amvqeaa83m5mhpagtovjd", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "rss_id", referencedTableName: "rs_service")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-27") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-29") {
         addForeignKeyConstraint(baseColumnNames: "rs_owner_party_fk", baseTableName: "rs_resource", constraintName: "FKexa6dlfc1mglfkfj7hd0573xr", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "pty_id", referencedTableName: "rs_party")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-28") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-30") {
         addForeignKeyConstraint(baseColumnNames: "pm_owner_id", baseTableName: "rs_protocol_message", constraintName: "FKfitt40ue7qbxs10espuxuts37", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "pr_id", referencedTableName: "rs_protocol_request")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-29") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-31") {
         addForeignKeyConstraint(baseColumnNames: "rst_to_state_fk", baseTableName: "rs_transition", constraintName: "FKhupf8tr1fv40u5119ddspwllj", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "rss_id", referencedTableName: "rs_state")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-30") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-32") {
         addForeignKeyConstraint(baseColumnNames: "rst_from_state_fk", baseTableName: "rs_transition", constraintName: "FKj8xhsre67mek74tpw03e2tj5w", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "rss_id", referencedTableName: "rs_state")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-31") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-33") {
+        addForeignKeyConstraint(baseColumnNames: "rss_owner_party_fk", baseTableName: "rs_symbol", constraintName: "FKjxppu1o4fq3q1594oak2okhpl", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "pty_id", referencedTableName: "rs_party")
+    }
+
+    changeSet(author: "ibbo (generated)", id: "1520590085275-34") {
         addForeignKeyConstraint(baseColumnNames: "rst_action_fk", baseTableName: "rs_transition", constraintName: "FKn3ff08kx4nxd0blbdjiktoma0", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "pa_id", referencedTableName: "rs_protocol_action")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-32") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-35") {
         addForeignKeyConstraint(baseColumnNames: "rs_current_service_fk", baseTableName: "rs_req", constraintName: "FKo11f06457f9yao6oqkh5nxd8c", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "pr_id", referencedTableName: "rs_protocol_request")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-33") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-36") {
         addForeignKeyConstraint(baseColumnNames: "pr_owner_rsr_fk", baseTableName: "rs_protocol_request", constraintName: "FKp69exjmgs7hl8r7llgudan0oh", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "rsr_id", referencedTableName: "rs_req")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-34") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-37") {
         addForeignKeyConstraint(baseColumnNames: "rs_member_party_fk", baseTableName: "rs_resource", constraintName: "FKtumur1q4n2fg8pr0crpbwb4v", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "pty_id", referencedTableName: "rs_party")
     }
 
-    changeSet(author: "ibbo (generated)", id: "1506689004081-35") {
+    changeSet(author: "ibbo (generated)", id: "1520590085275-38") {
         addForeignKeyConstraint(baseColumnNames: "rss_owner_sm_fk", baseTableName: "rs_state", constraintName: "FKy7pbh2tortdjy0cyr8rut7d1", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "rssm_id", referencedTableName: "rs_state_model")
     }
 }

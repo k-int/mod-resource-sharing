@@ -14,7 +14,7 @@ class ResourceSharingSymbol implements MultiTenant<ResourceSharingSymbol> {
   }
 
   static mapping = {
-    table 'rs_service'
+    table 'rs_symbol'
     id(column:'rss_id', generator: 'uuid', length:36)
     symbol column:'rss_symbol'
     owner column:'rss_owner_party_fk'
