@@ -11,7 +11,7 @@ class ResourceSharingSymbol implements MultiTenant<ResourceSharingSymbol> {
 
   static constraints = {
     symbol(nullable:true, blank:false)
-    authorty(nullable:false, blank:false)
+    authority(nullable:false, blank:false)
     owner(nullable:false, blank:false)
   }
 
