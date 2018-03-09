@@ -87,6 +87,7 @@ class RSRequestSpec extends GebSpec {
         if ( test_info[tenant] == null ) { test_info[tenant] = [locations:[:]] }
 
         if ( test_info[tenant] != null ) {
+          // Stash  the IDs of the created locations in a map so we can use them later on when we need them.
           if ( test_info[tenant].locations[resp.json.code] == null ) { test_info[tenant].locations[resp.json.code] = [:] }
           test_info[tenant].locations[resp.json.code].id = resp.json.id
           test_info[tenant].locations[resp.json.code].name = resp.json.name

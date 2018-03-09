@@ -13,6 +13,13 @@ import grails.gorm.multitenancy.WithoutTenant
 
 @CurrentTenant
 class ResourceSharingRequestService implements EventPublisher {
+
+  private Map local_system = [ authority:'FOLIO', symbol:'testa', name:'Test Institution A', service:'ISO10161', host:'localhost', port:'8999' ]
+
+  private List default_rota = [
+    [ authority:'FOLIO', symbol:'testb', name:'Test Institution B', service:'ISO10161', host:'localhost', port:'8999' ],
+    [ authority:'FOLIO', symbol:'testc', name:'Test Institution C', service:'ISO10161', host:'localhost', port:'8999' ]
+  ]
   
   Random random = new Random()
   
@@ -31,20 +38,21 @@ class ResourceSharingRequestService implements EventPublisher {
   
   private ResourceSharingRequest createRota (ResourceSharingRequest request) {
     
-    State s = getState('Generic Script', 'IDOL')
+    log.debug("ResourceSharingRequestService::createRota -- NULL IMPLEMENTATION");
+    State s = getState('Generic Script', 'IDLE')
     
-    for (int index : (1..depth)) {
+    // for (int index : (1..depth)) {
       
-      ResourceSharingService rs = ResourceSharingService.findOrCreateBySymbol("Institution ${index}")
-      rs.save()
+    //   ResourceSharingService rs = ResourceSharingService.findOrCreateBySymbol("Institution ${index}")
+    //   rs.save()
       
-      request.addToRota(
-        role          : 'REQUESTER',
-        rotaSequence  : index,
-        service       : rs,
-        currentState  : s
-      )
-    }
+    //   request.addToRota(
+    //     role          : 'REQUESTER',
+    //     rotaSequence  : index,
+    //     service       : rs,
+    //     currentState  : s
+    //   )
+    // }
     
     request
   }
