@@ -17,6 +17,9 @@ class RequestController extends OkapiTenantAwareController<ResourceSharingReques
   
   @Override
   protected ResourceSharingRequest createResource() {
+
+    log.debug("RequestController::createResource(${params})");
+
     Map defaults = [:]
     if (patron) {
       defaults.patronId = patron.id

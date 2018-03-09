@@ -5,17 +5,20 @@ import grails.gorm.MultiTenant
 class ResourceSharingSymbol implements MultiTenant<ResourceSharingSymbol> {
 
   Party owner
+  NamingAuthority authority
   String id
   String symbol
 
   static constraints = {
     symbol(nullable:true, blank:false)
+    authorty(nullable:false, blank:false)
     owner(nullable:false, blank:false)
   }
 
   static mapping = {
-    table 'rs_service'
+    table 'rs_symbol'
     id(column:'rss_id', generator: 'uuid', length:36)
+    authority column:'rss_authority_fk'
     symbol column:'rss_symbol'
     owner column:'rss_owner_party_fk'
   }

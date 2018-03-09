@@ -37,3 +37,17 @@ This module uses the idiomatic grails functional test suite -- run the tests aft
     grails test-app
 
 The tests will create a tenant using the okapi tenant endpoint, and then issue a number of requests. Finally the tenant DELETE verb is used to destroy the tenant (And drop the schema and all it's tables)
+
+# Database Migrations
+
+When changing the domain model, the migrations for the schema must be generated and added - Here is the command
+
+grails dbm-gorm-diff description-of-change.groovy --add
+
+For info, The full set of database migrations can be re-generated with the command 
+
+grails dbm-generate-gorm-changelog my-new-changelog.groovy
+
+This can be useful when manually crafting deltas. Developers must be careful when creating upgrades of existing systems! gorm-dbm-diff is the way to go normally!
+
+

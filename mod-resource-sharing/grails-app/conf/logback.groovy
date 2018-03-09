@@ -48,6 +48,7 @@ if (curr.name == 'okapi') {
     logger ('com.k_int', DEBUG)
     logger ('pubskb', DEBUG)
     logger ('okapi', INFO)
+    logger ('com.k_int.okapi.springsecurity.OkapiAuthenticationFilter', WARN);
     logger ('folio', DEBUG)
 
     appender("FULL_STACKTRACE", FileAppender) {
