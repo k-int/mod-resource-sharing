@@ -11,6 +11,8 @@ import org.grails.plugins.databasemigration.liquibase.GrailsLiquibase
 import java.sql.Connection
 import java.sql.ResultSet
 import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
+import grails.gorm.multitenancy.Tenants
+import com.k_int.folio.rs.Config
 
 class TenantAdminService {
 
@@ -106,7 +108,7 @@ class TenantAdminService {
     try {
       log.debug("adding tenant for ${schema_name}");
       hibernateDatastore.addTenantForSchema(schema_name)
-      // bootstrap(schema_name);
+      bootstrap(schema_name);
     } catch (Exception e) {
       log.error("Exception adding tenant schema for ${schema_name}", e)
       throw e
@@ -118,8 +120,10 @@ class TenantAdminService {
 
   void bootstrap(tenant) {
     log.debug("TenantAdminService::bootstrap(${tenant})");
-    withId(tenant) {
+    Tenants.withId(tenant) {
       // updated
+      log.debug("TenantAdminService::bootstrap withId(${tenant})");
+      Config c = Config.findByCode('default') ?: new Config(code:'default', cfg:'{}').save(flush:true, failOnError:true)
     }
     log.debug("bootstrap(${tenant})");
   }
