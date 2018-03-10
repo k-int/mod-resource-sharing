@@ -145,6 +145,23 @@ class RSRequestSpec extends GebSpec {
         'RSTestTenantB' | 'TestB' | 'testb'      | 'Org Test B, central library symbol'
     }
 
+    void "Register symbol/tenant pairings"(tenant,symbol) {
+      expect:
+        logger.debug("registerSymbol($tenant,$symbol)");
+        def resp = restBuilder().post("$baseUrl/admin/registerSymbol?symbol=$symbol") {
+          header 'X-Okapi-Tenant', tenant
+          authHeaders.rehydrate(delegate, owner, thisObject)()
+          accept 'application/json'
+        }
+        resp.status == OK.value()
+
+      where:
+        tenant | symbol
+        'RSTestTenantA' | 'testa'
+        'RSTestTenantA' | 'testa-alt1'
+        'RSTestTenantB' | 'testb'
+    }
+
     void "User Makes a request"() {
 
       when: "We submit a new request"

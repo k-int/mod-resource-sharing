@@ -80,8 +80,10 @@ dependencies {
     
     runtime "org.grails.plugins:async"
     runtime "org.grails.plugins:events"
-    
-    
+
+    // Rabbit MQ Client
+    // http://budjb.github.io/grails-rabbitmq-native/3.x/latest/
+    compile 'org.grails.plugins:rabbitmq-native:3.3.2'
 }
 
 bootRun {
