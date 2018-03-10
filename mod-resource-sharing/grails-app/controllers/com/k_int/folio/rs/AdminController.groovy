@@ -24,7 +24,7 @@ class AdminController {
     RSProfileService.registerSymbol(symbol, tenantId);
 
     TenantSymbolMapping.list().each { t ->
-      log.debug("Existing tenant mapping: ${t}");
+      log.debug("Existing tenant mapping: ${t.id}  ${t.tenantId} <-> ${t.symbol}");
     }
 
     render result as JSON

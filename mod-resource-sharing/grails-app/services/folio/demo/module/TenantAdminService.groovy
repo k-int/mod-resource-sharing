@@ -12,10 +12,6 @@ import java.sql.Connection
 import java.sql.ResultSet
 import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
 
-// import grails.gorm.multitenancy.*
-// @WithoutTenant
-
-
 class TenantAdminService {
 
   final static String SCHEMA_SUFFIX = '_mod_resource_sharing'
@@ -46,6 +42,7 @@ class TenantAdminService {
     try {
         sql = new Sql(dataSource as DataSource)
         sql.withTransaction {
+            log.debug("Execute -- create schema ${tenantId}");
             sql.execute("create schema ${tenantId}" as String)
         }
     } finally {
@@ -54,11 +51,13 @@ class TenantAdminService {
   }
 
   void dropTenant(String tenantId) {
+    log.debug("TenantAdminService::dropTenant(${tenantId})");
     Sql sql = null
     String schema_name = tenantId+SCHEMA_SUFFIX;
     try {
         sql = new Sql(dataSource as DataSource)
         sql.withTransaction {
+            log.debug("Execute -- drop schema ${schema_name} cascade");
             sql.execute("drop schema ${schema_name} cascade" as String)
         }
     } finally {
@@ -77,6 +76,9 @@ class TenantAdminService {
       String schema_name = schemas.getString("TABLE_SCHEM")
       if ( schema_name.endsWith(SCHEMA_SUFFIX) ) {
         updateAccountSchema(schema_name)
+      }
+      else {
+        log.debug("${schema_name} does not end with schema suffux ${SCHEMA_SUFFIX}");
       }
     }
 

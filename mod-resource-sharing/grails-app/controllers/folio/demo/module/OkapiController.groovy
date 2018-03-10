@@ -35,7 +35,7 @@ class OkapiController {
           break;
         case 'DELETE':
           try {
-            log.debug("Request to destroy tenant -- hanging fire here");
+            log.debug("DELETE Tenant ${tenant_id}");
             // This is well risqe, but it actually suits our functional test framework ;)
             tenantAdminService.dropTenant(tenant_id)
           }

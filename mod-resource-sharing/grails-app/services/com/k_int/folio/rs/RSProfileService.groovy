@@ -25,6 +25,11 @@ class RSProfileService {
 
     log.debug("RSProfileService::registerSymbol(${symbol}) - ${tenant_id}");
 
+    TenantSymbolMapping.findAllBySymbol(symbol).each { m ->
+     log.debug("Remove old mapping ${m}");
+      m.delete()
+    }
+
     /* N.B. TenantSymbolMapping is not a multi-tenant domain class - the table lives at the module level */
     TenantSymbolMapping tsm = new TenantSymbolMapping(tenantId:tenant_id,symbol:symbol).save(flush:true, failOnError:true);
     return true;
