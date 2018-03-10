@@ -31,7 +31,8 @@ class OkapiAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
    * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter#requiresAuthentication(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
   protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
-    return grabHeaders(request).allPresent && requiresAuthenticationRequestMatcher.matches(request);
+    // return grabHeaders(request).allPresent && requiresAuthenticationRequestMatcher.matches(request);
+    return grabHeaders(request).allPresent && super.requiresAuthentication(request,response);
   }
   
   private Map grabHeaders (HttpServletRequest request) {
