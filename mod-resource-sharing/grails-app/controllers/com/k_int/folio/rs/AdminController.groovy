@@ -12,6 +12,10 @@ class AdminController {
 
   def RSProfileService
 
+  /**
+   * This is done without tenant as we need to store at the module level which tenants map to 
+   * which requester symbols.
+   */
   @WithoutTenant
   def registerSymbol(String symbol) {
 
