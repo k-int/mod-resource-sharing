@@ -78,7 +78,7 @@ class ResourceSharingRequest implements MultiTenant<ResourceSharingRequest> {
     additionalNoLetters(nullable:true, blank:false)
     verificationReferenceSource(nullable:true, blank:false)
     currentServiceRequest(nullable:true, blank:false)
-    patronId(nullable:false, blank:false)
+    patronId(nullable:true, blank:false)
   }
 
   static mapping = {

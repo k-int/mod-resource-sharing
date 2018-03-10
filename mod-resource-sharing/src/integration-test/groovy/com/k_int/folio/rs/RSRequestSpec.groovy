@@ -162,23 +162,25 @@ class RSRequestSpec extends GebSpec {
         'RSTestTenantB' | 'testb'
     }
 
-    void "User Makes a request"() {
+    void "Test Request Creation"(tenant,itemType,title,subTitle,volume,issue,issn,pagination,titleOfArticle,patronId) {
+
+      logger.debug("Create request ${tenant} ${title}");
 
       when: "We submit a new request"
         def request_details = [
-          itemType:'serial',
-          title:'American Libraries',
-          subTitle:'THE MAGAZINE OF THE AMERICAN LIBRARY ASSOCIATION',
-          volume:'48',
-          issue:'3/4',
-          issn:'0002-9769',
-          pagination:'p16',
-          titleOfArticle:'Terri Grief',
-          patronId:'1234-5678-1234-5533-4545'
+          itemType:itemType,
+          title:title,
+          subTitle:subTitle,
+          volume:volume,
+          issue:issue,
+          issn:issn,
+          pagination:pagination,
+          titleOfArticle:titleOfArticle,
+          patronId:patronId
         ]
 
         def resp = restBuilder().post("$baseUrl/requests") {
-          header 'X-Okapi-Tenant', 'RSTestTenantA'
+          header 'X-Okapi-Tenant', tenant
           authHeaders.rehydrate(delegate, owner, thisObject)()
           contentType 'application/json'
           json request_details
@@ -187,6 +189,29 @@ class RSRequestSpec extends GebSpec {
       then: "System creates a new request record"
         System.err.println("RESPONSE:: ${resp.json}");
         resp.status == CREATED.value()
+
+      where:
+        tenant | itemType | title | subTitle | volume | issue | issn | pagination | titleOfArticle | patronId
+        'RSTestTenantA' | 'serial' | 'American Libraries' | 'THE MAGAZINE OF THE AMERICAN LIBRARY ASSOCIATION' | '48' | '3/4' | '0002-9769' | 'p16' | 'Terri Grief' | '1234-5678-1234-5533-4545'
+        'RSTestTenantA' | 'book' | 'Brain of the Firm' | 'botf sub' | '' | '' | '1234-5678' | '' | 'Beer, Stafford' | '3452-5678-1234-5533-4545'
+        'RSTestTenantB' | 'serial' | 'American Libraries' | 'THE MAGAZINE OF THE AMERICAN LIBRARY ASSOCIATION' | '41' | '1/4' | '0002-9769' | 'p27' | 'Some Auth' | '1234-8836-1234-5533-4545'
+    }
+
+    void "validate Tenant Isolation"(tenant, expectedCount) {
+      when:"We ask the system to list requests for our user"
+        def resp = restBuilder().get("$baseUrl/requests?title=American Libraries") {
+          header 'X-Okapi-Tenant', tenant
+          authHeaders.rehydrate(delegate, owner, thisObject)()
+        }
+        logger.debug("Search result - requests for ${tenant}: ${resp.json.size()}");
+
+      then:
+        resp.json.size() == expectedCount
+
+      where:
+        tenant | expectedCount
+        'RSTestTenantA' | 2
+        'RSTestTenantB' | 1
     }
 
 
@@ -203,6 +228,9 @@ class RSRequestSpec extends GebSpec {
           authHeaders.rehydrate(delegate, owner, thisObject)()
         }
         logger.debug("Search result: ${resp.json}");
+        resp.json.each { r ->
+          logger.debug("Search result: ${r.id} ${r.title}");
+        }
 
       then: "The system responds with the request we created above"
         resp.status == OK.value()
