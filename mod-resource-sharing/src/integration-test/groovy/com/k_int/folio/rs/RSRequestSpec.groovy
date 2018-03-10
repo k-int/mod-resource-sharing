@@ -62,6 +62,24 @@ class RSRequestSpec extends GebSpec {
             // resp.json.message == 'Welcome to Grails!'
     }
 
+    void "Ensure we have two clean empty tenants by searching for requests in each"(tenant, expectedCount) {
+
+      when:"We ask the system to list requests for our user"
+        def resp = restBuilder().get("$baseUrl/requests") {
+          header 'X-Okapi-Tenant', tenant
+          authHeaders.rehydrate(delegate, owner, thisObject)()
+        }
+        logger.debug("Search for requests in ${tenant}: found ${resp.json.size()} expected ${expectedCount}");
+
+      then:
+        resp.json.size() == expectedCount
+
+      where:
+        tenant | expectedCount
+        'RSTestTenantA' | 0
+        'RSTestTenantB' | 0
+    }
+
 
     /**
      * the RS module allows institutions to share resources. Institutions are modelled as party entities.
