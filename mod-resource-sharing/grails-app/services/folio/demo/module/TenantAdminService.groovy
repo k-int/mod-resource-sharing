@@ -65,12 +65,8 @@ class TenantAdminService {
     }
   }
 
-
-
   void freshenAllTenantSchemas() {
-
     log.debug("freshenAllTenantSchemas()");
-
     ResultSet schemas = dataSource.getConnection().getMetaData().getSchemas()
     while(schemas.next()) {
       String schema_name = schemas.getString("TABLE_SCHEM")
@@ -81,7 +77,6 @@ class TenantAdminService {
         log.debug("${schema_name} does not end with schema suffux ${SCHEMA_SUFFIX}");
       }
     }
-
   }
 
   void updateAccountSchema(String schema_name) {
@@ -109,7 +104,9 @@ class TenantAdminService {
     }
 
     try {
+      log.debug("adding tenant for ${schema_name}");
       hibernateDatastore.addTenantForSchema(schema_name)
+      // bootstrap(schema_name);
     } catch (Exception e) {
       log.error("Exception adding tenant schema for ${schema_name}", e)
       throw e
@@ -117,6 +114,14 @@ class TenantAdminService {
     finally {
       log.debug("added schema");
     }
+  }
+
+  void bootstrap(tenant) {
+    log.debug("TenantAdminService::bootstrap(${tenant})");
+    withId(tenant) {
+      // updated
+    }
+    log.debug("bootstrap(${tenant})");
   }
 
 }
