@@ -36,8 +36,8 @@ grails:
             -
               pattern: '/**'
               access:
-#                - 'permitAll'
-                - 'hasAuthority("folio.resource-sharing.user")'
+                - 'permitAll'
+#                - 'hasAuthority("folio.resource-sharing.user")'
         filterChain:
           chainMap:
             - 
