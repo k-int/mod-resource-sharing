@@ -11,12 +11,14 @@ import grails.plugins.rest.client.RestBuilder
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import okapi.OkapiHeaders
+import spock.lang.Shared
 
 @Integration
 // @Rollback
 @Stepwise
 class RSRequestSpec extends GebSpec {
 
+  @Shared
   private Map test_info = [:]
   
   final Closure authHeaders = {
@@ -107,6 +109,7 @@ class RSRequestSpec extends GebSpec {
 
         if ( test_info[tenant] != null ) {
           // Stash  the IDs of the created locations in a map so we can use them later on when we need them.
+          logger.debug("Store ${tenant} tenant info in local config");
           if ( test_info[tenant].locations[resp.json.code] == null ) { test_info[tenant].locations[resp.json.code] = [:] }
           test_info[tenant].locations[resp.json.code].id = resp.json.id
           test_info[tenant].locations[resp.json.code].name = resp.json.name
@@ -195,7 +198,15 @@ class RSRequestSpec extends GebSpec {
           json request_details
         }
         resp.status == CREATED.value()
- 
+
+        if ( test_info[tenant] != null ) {
+          logger.debug("Stashing resource sharing service - localhost in local cfg -- ${resp.json.id}");
+          test_info[tenant].svc = resp.json.id
+        }
+        else {
+          logger.debug("No test_info held for ${tenant} (${test_info})");
+        }
+
       where:
         tenant | rss_type | rss_address
         'RSTestTenantA' | 'tcp' | 'tcp:localhost:8999'
