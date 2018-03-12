@@ -22,6 +22,7 @@ class UrlMappings {
         '/requests'(resources: 'request') {
           '/start' (controller: 'request', action: 'rotaStart')
         }
+        '/resourceSharingServices'(resources: 'resourceSharingService')
 
         "/admin/$action?/$id?"(controller: 'admin')
     }

@@ -181,6 +181,28 @@ class RSRequestSpec extends GebSpec {
         'RSTestTenantB' | 'testb'
     }
 
+    void "Register resource sharing services"(tenant, rss_type, rss_address) {
+      expect: "We register a new rs service"
+        logger.debug("new RS Service($tenant,$rss_type, $rss_address)");
+        def request_details = [
+          type:rss_type,
+          address:rss_address
+        ]
+        def resp = restBuilder().post("$baseUrl/resourceSharingServices") {
+          header 'X-Okapi-Tenant', tenant
+          authHeaders.rehydrate(delegate, owner, thisObject)()
+          accept 'application/json'
+          json request_details
+        }
+        resp.status == CREATED.value()
+ 
+      where:
+        tenant | rss_type | rss_address
+        'RSTestTenantA' | 'tcp' | 'tcp:localhost:8999'
+        'RSTestTenantB' | 'tcp' | 'tcp:localhost:8999'
+
+    }
+
     void "Test Request Creation"(tenant,itemType,title,subTitle,volume,issue,issn,pagination,titleOfArticle,patronId) {
 
       logger.debug("Create request ${tenant} ${title}");
