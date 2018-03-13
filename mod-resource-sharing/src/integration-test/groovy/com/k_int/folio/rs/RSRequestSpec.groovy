@@ -97,7 +97,7 @@ class RSRequestSpec extends GebSpec {
         def json_location = [ 'code' : code, 'name' : name, role: role ]
 
         def resp = restBuilder().post("$baseUrl/locations") {
-          header 'X-Okapi-Tenant', 'RSTestTenantA'
+          header 'X-Okapi-Tenant', tenant
           authHeaders.rehydrate(delegate, owner, thisObject)()
           contentType 'application/json'
           accept 'application/json'
@@ -112,6 +112,8 @@ class RSRequestSpec extends GebSpec {
           // Stash  the IDs of the created locations in a map so we can use them later on when we need them.
           logger.debug("Store ${tenant} tenant info in local config");
           if ( test_info[tenant].locations[resp.json.code] == null ) { test_info[tenant].locations[resp.json.code] = [:] }
+
+          logger.debug("${tenant}::${resp.json.code} == ${resp.json.id}");
           test_info[tenant].locations[resp.json.code].id = resp.json.id
           test_info[tenant].locations[resp.json.code].name = resp.json.name
           test_info[tenant].locations[resp.json.code].code = resp.json.code
@@ -244,7 +246,8 @@ class RSRequestSpec extends GebSpec {
         }
 
       then: "System creates a new request record"
-        System.err.println("New Request ID:: ${resp.json?.id}");
+        logger.debug("New Request ID:: ${resp.json?.id}");
+        logger.debug("${resp.json}");
         resp.status == CREATED.value()
 
       where:
