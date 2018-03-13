@@ -2,7 +2,6 @@ package com.k_int.folio.rs
 
 import grails.gorm.transactions.Transactional
 
-import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.multitenancy.WithoutTenant
 
 
@@ -12,7 +11,6 @@ import grails.gorm.multitenancy.WithoutTenant
  *
  *
  */
-@CurrentTenant
 @Transactional
 class RSProfileService {
 
