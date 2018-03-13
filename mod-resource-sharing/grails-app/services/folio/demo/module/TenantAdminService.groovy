@@ -81,6 +81,28 @@ class TenantAdminService {
     }
   }
 
+  void freshenModuleSchema() {
+    log.debug("freshenModuleSchema()");
+    try {
+      GrailsLiquibase gl = new GrailsLiquibase(grailsApplication.mainContext)
+      gl.dataSource = dataSource
+      gl.dropFirst = false
+      gl.changeLog = 'module-changelog.groovy'
+      gl.contexts = []
+      gl.labels = []
+      gl.defaultSchema = 'public'
+      gl.databaseChangeLogTableName = 'mod_resource_sharing_changelog'
+      gl.databaseChangeLogLockTableName = 'mod_resource_sharing_changelog_lock'
+      gl.afterPropertiesSet() // this runs the update command
+    } catch (Exception e) {
+      log.error("Exception trying to freshen module schema", e)
+      throw e
+    }
+    finally {
+      log.debug("Database migration completed for module level tables");
+    }
+  }
+
   void updateAccountSchema(String schema_name) {
 
     log.debug("updateAccountSchema(${schema_name})");
