@@ -87,13 +87,14 @@ class RSRequestSpec extends GebSpec {
      * the RS module allows institutions to share resources. Institutions are modelled as party entities.
      * A party can have many symbols. here we set up in each of our two tennants records that describe
      * ourselves and our remote parties. Our test setup establishes two tenants each of which know about 
-     * themselves and the other party.
+     * themselves and the other party. Party entities have a role, which allows us to identify the "Local"
+     * parties who should be managed within this instance.
      */
-    void "Set up some test organisations"(tenant,code,name) {
+    void "Set up some test organisations"(tenant,code,name,role) {
 
       expect:
 
-        def json_location = [ 'code' : code, 'name' : name ]
+        def json_location = [ 'code' : code, 'name' : name, role: role ]
 
         def resp = restBuilder().post("$baseUrl/locations") {
           header 'X-Okapi-Tenant', 'RSTestTenantA'
@@ -121,11 +122,11 @@ class RSRequestSpec extends GebSpec {
 
       // Use a GEB Data Table to load each record
       where:
-        tenant | code | name
-        'RSTestTenantA' | 'TestA' | 'Main Library for Test Tenant A'
-        'RSTestTenantA' | 'TestB' | 'Main Library for Test Tenant B'
-        'RSTestTenantB' | 'TestA' | 'Main Library for Test Tenant A'
-        'RSTestTenantB' | 'TestB' | 'Main Library for Test Tenant B'
+        tenant | code | name | role
+        'RSTestTenantA' | 'TestA' | 'Main Library for Test Tenant A' | 'requester'
+        'RSTestTenantA' | 'TestB' | 'Main Library for Test Tenant B' | 'responder'
+        'RSTestTenantB' | 'TestA' | 'Main Library for Test Tenant A' | 'responder'
+        'RSTestTenantB' | 'TestB' | 'Main Library for Test Tenant B' | 'requester'
     }
 
     /**
@@ -214,12 +215,16 @@ class RSRequestSpec extends GebSpec {
 
     }
 
-    void "Test Request Creation"(tenant,itemType,title,subTitle,volume,issue,issn,pagination,titleOfArticle,patronId) {
+    void "Test Request Creation"(tenant,requester_location,itemType,title,subTitle,volume,issue,issn,pagination,titleOfArticle,patronId) {
 
       logger.debug("Create request ${tenant} ${title}");
 
       when: "We submit a new request"
+        logger.debug("Submit new request to tenant ${tenant} location ${requester_location} (${test_info[tenant].locations[requester_location].id})");
         def request_details = [
+          requesterOrg:[
+            id:test_info[tenant].locations[requester_location].id
+          ],
           itemType:itemType,
           title:title,
           subTitle:subTitle,
@@ -239,14 +244,14 @@ class RSRequestSpec extends GebSpec {
         }
 
       then: "System creates a new request record"
-        System.err.println("RESPONSE:: ${resp.json}");
+        System.err.println("New Request ID:: ${resp.json?.id}");
         resp.status == CREATED.value()
 
       where:
-        tenant | itemType | title | subTitle | volume | issue | issn | pagination | titleOfArticle | patronId
-        'RSTestTenantA' | 'serial' | 'American Libraries' | 'THE MAGAZINE OF THE AMERICAN LIBRARY ASSOCIATION' | '48' | '3/4' | '0002-9769' | 'p16' | 'Terri Grief' | '1234-5678-1234-5533-4545'
-        'RSTestTenantA' | 'book' | 'Brain of the Firm' | 'botf sub' | '' | '' | '1234-5678' | '' | 'Beer, Stafford' | '3452-5678-1234-5533-4545'
-        'RSTestTenantB' | 'serial' | 'American Libraries' | 'THE MAGAZINE OF THE AMERICAN LIBRARY ASSOCIATION' | '41' | '1/4' | '0002-9769' | 'p27' | 'Some Auth' | '1234-8836-1234-5533-4545'
+        tenant | requester_location | itemType | title | subTitle | volume | issue | issn | pagination | titleOfArticle | patronId
+        'RSTestTenantA' | 'TestA' | 'serial' | 'American Libraries' | 'THE MAGAZINE OF THE AMERICAN LIBRARY ASSOCIATION' | '48' | '3/4' | '0002-9769' | 'p16' | 'Terri Grief' | '1234-5678-1234-5533-4545'
+        'RSTestTenantA' | 'TestA' | 'book' | 'Brain of the Firm' | 'botf sub' | '' | '' | '1234-5678' | '' | 'Beer, Stafford' | '3452-5678-1234-5533-4545'
+        'RSTestTenantB' | 'TestB' | 'serial' | 'American Libraries' | 'THE MAGAZINE OF THE AMERICAN LIBRARY ASSOCIATION' | '41' | '1/4' | '0002-9769' | 'p27' | 'Some Auth' | '1234-8836-1234-5533-4545'
     }
 
     void "validate Tenant Isolation"(tenant, expectedCount) {

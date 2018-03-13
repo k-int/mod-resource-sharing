@@ -16,11 +16,8 @@ class ResourceSharingRequestService implements EventPublisher {
 
   private Map local_system = [ authority:'FOLIO', symbol:'testa', name:'Test Institution A', service:'ISO10161', host:'localhost', port:'8999' ]
 
-  private List default_rota = [
-    [ authority:'FOLIO', symbol:'testb', name:'Test Institution B', service:'ISO10161', host:'localhost', port:'8999' ],
-    [ authority:'FOLIO', symbol:'testc', name:'Test Institution C', service:'ISO10161', host:'localhost', port:'8999' ]
-  ]
-  
+  def RSProfileService
+
   Random random = new Random()
   
   @Value('${rs.rota.depth}')
@@ -36,11 +33,44 @@ class ResourceSharingRequestService implements EventPublisher {
     s.save(failOnError: true)
   }
   
+  /*
+   * If not rota is supplied on a request, use local policy to create a default rota.
+   */
   private ResourceSharingRequest createRota (ResourceSharingRequest request) {
     
     log.debug("ResourceSharingRequestService::createRota -- NULL IMPLEMENTATION");
     State s = getState('Generic Script', 'IDLE')
+
     
+
+    SymbolService requester_symbol_service = null;
+
+    if ( requester_symbol_service != null ) {
+    
+      // The default implementation adds all symbols which do not belong to the requester
+      int index = 0;
+      ResourceSharingSymbol.list().each { symbol ->
+
+        // Each symbol is made available at 0 or more SymbolService endpoints. Find the most appropriate.
+        def services_for_symbol = SymbolService.executeQuery('select ss from SymbolService where ss.symbol = :symbol order by priority asc',[symbol:symbol]);
+
+        if ( services_for_symbol.size() > 0 ) {
+          SymbolService remote_symbol_service = services_for_symbol.get(0);
+
+          request.addToRota(
+            role                 : 'REQUESTER',
+            rotaSequence         : index,
+            localSymbolService   : requester_symbol_service,
+            remoteSymbolService  : remote_symbol_service,
+            currentState         : s
+          )
+        }
+        else {
+          log.warn("Unable to locate any SymbolService records for ${symbol}");
+        }
+      }
+    }
+
     // for (int index : (1..depth)) {
       
     //   ResourceSharingService rs = ResourceSharingService.findOrCreateBySymbol("Institution ${index}")

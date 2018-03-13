@@ -7,6 +7,7 @@ class Party implements MultiTenant<Party> {
   String id
   String code
   String name
+  String role
 
   static hasMany = [
     memberships:Member,
@@ -20,6 +21,8 @@ class Party implements MultiTenant<Party> {
 
   static constraints = {
     name(nullable:false, blank:false);
+    code(nullable:true, blank:false);
+    role(nullable:true, blank:false);
   }
 
   static mapping = {
@@ -27,6 +30,7 @@ class Party implements MultiTenant<Party> {
     id(column:'pty_id', generator: 'uuid', length:36)
     name column:'pty_name'
     code column:'pty_code'
+    role column:'pty_role'
   }
 
 }

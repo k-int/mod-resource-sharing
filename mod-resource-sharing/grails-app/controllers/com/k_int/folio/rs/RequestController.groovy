@@ -19,6 +19,7 @@ class RequestController extends OkapiTenantAwareController<ResourceSharingReques
   protected ResourceSharingRequest createResource() {
 
     log.debug("RequestController::createResource(${params})");
+    log.debug("json:${request.JSON}");
 
     Map defaults = [:]
     if (patron) {

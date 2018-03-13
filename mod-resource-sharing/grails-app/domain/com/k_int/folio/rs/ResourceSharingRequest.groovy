@@ -13,6 +13,8 @@ import grails.plugin.springsecurity.SpringSecurityService
  */
 class ResourceSharingRequest implements MultiTenant<ResourceSharingRequest> {
 
+  Party requesterOrg
+
   String id
   String itemType  // monograph, serial, other
   String heldMediumType 
@@ -53,6 +55,7 @@ class ResourceSharingRequest implements MultiTenant<ResourceSharingRequest> {
   ]
 
   static constraints = {
+    requesterOrg(nullable:false, blank:false)
     itemType(nullable:true, blank:false)
     heldMediumType (nullable:true, blank:false)
     callNumber(nullable:true, blank:false)
@@ -85,6 +88,7 @@ class ResourceSharingRequest implements MultiTenant<ResourceSharingRequest> {
     table 'rs_req'
     id(column:'rsr_id', generator: 'uuid', length:36)
     rota sort:'rotaSequence', order: 'asc', bindable: false
+                   requesterOrg column:'rs_requester_org_party_fk'
                        itemType column:'rs_item_type'
                  heldMediumType column:'rs_held_medium_type'
                      callNumber column:'rs_call_number'
