@@ -84,7 +84,9 @@ class RSRequestSpec extends GebSpec {
 
 
     /**
-     * the RS module allows institutions to share resources. Institutions are modelled as party entities.
+     * test POST to /locations - create a new "Party" - which is a location able to participate in resource sharing.
+     * 
+     * The RS module allows institutions to share resources. Institutions are modelled as party entities.
      * A party can have many symbols. here we set up in each of our two tennants records that describe
      * ourselves and our remote parties. Our test setup establishes two tenants each of which know about 
      * themselves and the other party. Party entities have a role, which allows us to identify the "Local"
@@ -132,6 +134,8 @@ class RSRequestSpec extends GebSpec {
     }
 
     /**
+     * test POST to /locations/<code>/symbols to add a new symbol to a location.
+     *
      * An institution can have many symbols, but here we just set up defaults. Our two institutions, TestA and TestB
      * both have 1 symbol testa and testb. TestA also has an alternate symbol.
      */
@@ -149,7 +153,7 @@ class RSRequestSpec extends GebSpec {
 
         // logger.info("Location data: ${location_info.json}");
 
-        // def resp = restBuilder().post("$baseUrl/locations") {
+        // def resp = restBuilder().post("$baseUrl/locations/$party/symbols") {
         //   header 'X-Okapi-Tenant', 'RSTestTenantA'
         //   contentType 'application/json'
         //   json json_location
