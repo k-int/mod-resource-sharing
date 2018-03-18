@@ -53,4 +53,6 @@ grails dbm-generate-gorm-changelog my-new-changelog.groovy
 
 This can be useful when manually crafting deltas. Developers must be careful when creating upgrades of existing systems! gorm-dbm-diff is the way to go normally!
 
+# ToDo
 
+## Explain how config options get passed
