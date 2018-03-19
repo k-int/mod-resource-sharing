@@ -1,10 +1,9 @@
 package com.k_int.folio.rs
 
+import com.k_int.okapi.OkapiHeaders
+import grails.converters.*
 import grails.gorm.multitenancy.CurrentTenant
 import grails.gorm.multitenancy.WithoutTenant
-
-import okapi.OkapiTenantAwareController
-import grails.converters.*
 
 
 @CurrentTenant
@@ -18,9 +17,9 @@ class AdminController {
    */
   @WithoutTenant
   def registerSymbol(String symbol) {
-
+ 
     def result = [ status: 'OK' ];
-    String tenantId = request.getHeader('X-Okapi-Tenant')?.toLowerCase()
+    String tenantId = request.getHeader(OkapiHeaders.TENANT)?.toLowerCase()
 
 
     // @CurrentTenant will provide tenantId. The RSProfileService is also tenant aware and accesses tenantId via that path
