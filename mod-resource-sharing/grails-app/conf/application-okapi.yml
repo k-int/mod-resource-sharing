@@ -10,7 +10,7 @@ dataSource:
   password: folio_admin
   driverClassName: org.postgresql.Driver
   dialect: org.hibernate.dialect.PostgreSQLDialect
-  schemaHandler: okapi.OkapiSchemaHandler
+  schemaHandler: com.k_int.okapi.OkapiSchemaHandler
   properties:
       jmxEnabled: false
       initialSize: 5

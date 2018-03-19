@@ -16,7 +16,7 @@ grails:
             events: false
         multiTenancy:
             mode: SCHEMA
-            tenantResolverClass: okapi.OkapiTenantResolver    # See src/main/groovy
+            tenantResolverClass: com.k_int.okapi.OkapiTenantResolver    # See src/main/groovy
             
     plugin:
       springsecurity:
@@ -130,7 +130,7 @@ environments:
             driverClassName: org.postgresql.Driver
             dialect: org.hibernate.dialect.PostgreSQLDialect
             url: jdbc:postgresql://localhost:5432/foliodev
-            schemaHandler: okapi.OkapiSchemaHandler
+            schemaHandler: com.k_int.okapi.OkapiSchemaHandler
     test:
         dataSource:
             dbCreate: none
@@ -139,7 +139,7 @@ environments:
             driverClassName: org.postgresql.Driver
             dialect: org.hibernate.dialect.PostgreSQLDialect
             url: jdbc:postgresql://localhost:5432/foliotest
-            schemaHandler: okapi.OkapiSchemaHandler
+            schemaHandler: com.k_int.okapi.OkapiSchemaHandler
     production:
         dataSource:
             dbCreate: none
@@ -148,7 +148,7 @@ environments:
             driverClassName: org.postgresql.Driver
             dialect: org.hibernate.dialect.PostgreSQLDialect
             url: jdbc:postgresql://localhost:5432/folio
-            schemaHandler: okapi.OkapiSchemaHandler
+            schemaHandler: com.k_int.okapi.OkapiSchemaHandler
             properties:
                 jmxEnabled: true
                 initialSize: 5
