@@ -110,19 +110,27 @@ task generateDescriptors(type:Copy) {
   }
 }
 
-grails {
-	plugins {
-	  // Local Web Toolkit project.
-	  println "Looking for the Web-Toolkit plugin..."
-	  def wtp = parent?.subprojects?.find {
-  		if (it.name == "kint-web-toolkit") {
-  		  compile it
-  		  println "\tfound locally at ${it.projectDir}"
-  		  return true
-  		}
-  		false
-	  }
-	}
+def wtp = parent?.subprojects?.find {
+  if (it.name == "kint-web-toolkit") {
+    return it
+  }
+  false
+}
+
+if (wtp) {
+  println "Using local ${wtp.name} at ${wtp.projectDir}"
+  grails {
+  	plugins {
+  	  compile wtp
+  	}
+  }
+} else {
+  // Using maven
+  println "Installing form maven deps"
+  dependencies {
+    compile "com.k_int.grails:kint-web-toolkit:3.3.1"
+    compile "com.k_int.okapi:grails-okapi:3.3.0"
+  }
 }
 
 final String version_regex = /^(((\d+)\.\d+)\.\d+)(-([a-z]+[\w]*))?$/
