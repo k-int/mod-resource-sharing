@@ -28,36 +28,4 @@ class Application extends GrailsAutoConfiguration {
     );
     GrailsApp.run(Application, args)
   }
-  
-  @Override
-  Closure doWithSpring() {{->
-    // Change the authentication end point to throw a 401
-    authenticationEntryPoint(Http401AuthenticationEntryPoint, 'realm="Resource Sharing"')
-      
-    // This filter registers itself in a particular order in the chain.
-    okapiAuthenticationFilter(OkapiAuthenticationFilter){ bean ->
-      authenticationManager = ref('authenticationManager')
-    }
-    
-    // Because of the custom ordering above we need to stop this from being de/registered automatically.
-    okapiAuthenticationFilterDeregistrationBean(FilterRegistrationBean) {
-      filter = ref('okapiAuthenticationFilter')
-      enabled = false
-    }
-    
-    okapiAuthenticationProvider(OkapiAuthenticationProvider)
-    
-    // Replace the AccessDenied handler to not redirect if the authentication was done with OKAPI.
-    okapiAuthAwareAccessDeniedHandler(OkapiAuthAwareAccessDeniedHandler)
-    
-//    grailsEventBus(ExecutorEventBus, Executors.newFixedThreadPool(5))
-  }}
-  
-  @Override
-  void doWithApplicationContext() {
-    
-    // Register this filter first.
-    SpringSecurityUtils.clientRegisterFilter(
-      'okapiAuthenticationFilter', SecurityFilterPosition.FIRST)
-  }
 }
