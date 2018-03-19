@@ -1,4 +1,4 @@
-package folio.demo.module
+package com.k_int.okapi
 
 import groovy.sql.Sql
 import grails.rest.*
