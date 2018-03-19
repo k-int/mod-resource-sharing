@@ -17,7 +17,7 @@ import groovy.transform.TypeCheckingMode
 /**
  * A tenant resolver that resolves the tenant from the request HTTP Header
  */
-com.k_int.okapiileStatic
+@CompileStatic
 class OkapiTenantResolver implements TenantResolver {
   
   public static final String getTenantSchemaName ( String tenantId ) {
