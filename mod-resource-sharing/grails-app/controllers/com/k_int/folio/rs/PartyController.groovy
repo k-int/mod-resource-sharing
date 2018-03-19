@@ -1,7 +1,8 @@
 package com.k_int.folio.rs
 
+import com.k_int.okapi.OkapiTenantAwareController
+
 import grails.gorm.multitenancy.CurrentTenant
-import okapi.OkapiTenantAwareController
 
 @CurrentTenant
 class PartyController extends OkapiTenantAwareController<Party>  {

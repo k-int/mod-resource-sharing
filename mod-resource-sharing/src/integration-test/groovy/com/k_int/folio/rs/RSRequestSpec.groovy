@@ -5,12 +5,13 @@ import grails.testing.mixin.integration.Integration
 import grails.transaction.*
 import static grails.web.http.HttpHeaders.*
 import static org.springframework.http.HttpStatus.*
+
+import com.k_int.okapi.OkapiHeaders
 import spock.lang.*
 import geb.spock.*
 import grails.plugins.rest.client.RestBuilder
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import okapi.OkapiHeaders
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 @Integration
 // @Rollback

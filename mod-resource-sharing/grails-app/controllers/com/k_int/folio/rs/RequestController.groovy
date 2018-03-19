@@ -1,10 +1,12 @@
 package com.k_int.folio.rs
 
 
+import static grails.gorm.multitenancy.Tenants.*
+
+import com.k_int.okapi.OkapiTenantAwareController
+
 import grails.gorm.multitenancy.CurrentTenant
 import grails.plugin.springsecurity.annotation.Secured
-import okapi.OkapiTenantAwareController
-import static grails.gorm.multitenancy.Tenants.*
 
 @CurrentTenant
 class RequestController extends OkapiTenantAwareController<ResourceSharingRequest> {
