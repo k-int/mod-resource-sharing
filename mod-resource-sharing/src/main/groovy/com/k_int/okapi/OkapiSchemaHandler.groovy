@@ -20,7 +20,6 @@ import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
 @Slf4j
 class OkapiSchemaHandler implements SchemaHandler {
 
-    final static String SCHEMA_SUFFIX = OkapiTenantResolver.getSchemaSuffix()
     final String useSchemaStatement
     final String createSchemaStatement
     final String defaultSchemaName
@@ -97,12 +96,12 @@ class OkapiSchemaHandler implements SchemaHandler {
         Connection connection = dataSource.getConnection()
         try {
 
-          // Iterate through all schemas, ignore any that don't end SCHEMA_SUFFIX, add those that do to the result.
+          // Iterate through all schemas, ignore any that don't end OkapiTenantResolver.getSchemaSuffix(), add those that do to the result.
           // This may be the place to run migrations, or it may be better to do that in bootstrap.
           ResultSet schemas = connection.getMetaData().getSchemas()
           while(schemas.next()) {
             String schema_name = schemas.getString("TABLE_SCHEM")
-            if ( schema_name.endsWith(SCHEMA_SUFFIX) ) {
+            if ( schema_name.endsWith(OkapiTenantResolver.getSchemaSuffix()) ) {
               // log.debug('resolveSchemaNames adding schema for '+schema_name);
               schemaNames.add(schema_name)
             }

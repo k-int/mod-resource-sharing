@@ -16,22 +16,20 @@ import com.k_int.folio.rs.Config
 
 class TenantAdminService {
 
-  final static String SCHEMA_SUFFIX = '_mod_resource_sharing'
-
   def hibernateDatastore
   def dataSource
   GrailsApplication grailsApplication
 
   public void createTenant(String tenantId) {
 
-      String new_schema_name = tenantId+SCHEMA_SUFFIX;
+      String new_schema_name = OkapiTenantResolver.getTenantSchemaName (tenantId)
       try {
-        log.debug("See if we already have a datastore for ${new_schema_name}");
+        log.debug("See if we already have a datastore for ${new_schema_name}")
         hibernateDatastore.getDatastoreForConnection(new_schema_name)
         log.debug("Module already registered for tenant");
       }
       catch ( org.grails.datastore.mapping.core.exceptions.ConfigurationException ce ) {
-        log.debug("register module for tenant/schema (${tenantId}/${new_schema_name})");
+        log.debug("register module for tenant/schema (${tenantId}/${new_schema_name})")
         createAccountSchema(new_schema_name);
         updateAccountSchema(new_schema_name);
 
@@ -55,7 +53,7 @@ class TenantAdminService {
   void dropTenant(String tenantId) {
     log.debug("TenantAdminService::dropTenant(${tenantId})");
     Sql sql = null
-    String schema_name = tenantId+SCHEMA_SUFFIX;
+    String schema_name = OkapiTenantResolver.getTenantSchemaName (tenantId);
     try {
         sql = new Sql(dataSource as DataSource)
         sql.withTransaction {
@@ -72,19 +70,18 @@ class TenantAdminService {
     ResultSet schemas = dataSource.getConnection().getMetaData().getSchemas()
     while(schemas.next()) {
       String schema_name = schemas.getString("TABLE_SCHEM")
-      if ( schema_name.endsWith(SCHEMA_SUFFIX) ) {
+      if ( schema_name.endsWith(OkapiTenantResolver.getSchemaSuffix()) ) {
         updateAccountSchema(schema_name)
       }
       else {
-        log.debug("${schema_name} does not end with schema suffux ${SCHEMA_SUFFIX}");
+        log.debug("${schema_name} does not end with schema suffux ${OkapiTenantResolver.getSchemaSuffix()}");
       }
     }
   }
 
   void updateAccountSchema(String schema_name) {
 
-    log.debug("updateAccountSchema(${schema_name})");
-
+    log.debug("updateAccountSchema(${schema_name})")
     // Now try create the tables for the schema
     try {
       GrailsLiquibase gl = new GrailsLiquibase(grailsApplication.mainContext)
@@ -94,8 +91,8 @@ class TenantAdminService {
       gl.contexts = []
       gl.labels = []
       gl.defaultSchema = schema_name
-      gl.databaseChangeLogTableName = 'mod_resource_sharing_tenant_changelog'
-      gl.databaseChangeLogLockTableName = 'mod_resource_sharing_tenant_changelog_lock'
+      gl.databaseChangeLogTableName = "${OkapiTenantResolver.getSchemaAppName()}_tenant_changelog"
+      gl.databaseChangeLogLockTableName = '${OkapiTenantResolver.getSchemaAppName()}_tenant_changelog_lock'
       gl.afterPropertiesSet() // this runs the update command
     } catch (Exception e) {
       log.error("Exception trying to create new account schema tables for $schema_name", e)
