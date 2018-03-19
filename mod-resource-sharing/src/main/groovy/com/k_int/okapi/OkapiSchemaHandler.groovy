@@ -20,7 +20,7 @@ import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
 @Slf4j
 class OkapiSchemaHandler implements SchemaHandler {
 
-    final static String SCHEMA_SUFFIX = '_mod_resource_sharing'
+    final static String SCHEMA_SUFFIX = OkapiTenantResolver.getSchemaSuffix()
     final String useSchemaStatement
     final String createSchemaStatement
     final String defaultSchemaName
