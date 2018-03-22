@@ -172,3 +172,6 @@ rs:
   rota:
     depth: 3
 
+okapi:
+  schema:
+    appName: mod_resource_sharing

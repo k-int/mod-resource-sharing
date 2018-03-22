@@ -1,20 +1,18 @@
 package folio.demo.module
 
-import grails.gorm.multitenancy.*
+import com.k_int.okapi.OkapiTenantAdminService
 
 class BootStrap {
 
   def grailsApplication
-  def tenantAdminService
-  def dataSource
-  def rulesService
+  OkapiTenantAdminService okapiTenantAdminService
 
   def init = { servletContext ->
     log.debug("Reporting config from folio_globals.yaml: ${grailsApplication.config.testsection.message}");
     
     // Freshen up the schemas.
-    tenantAdminService.createTenant('diku')
-    tenantAdminService.freshenAllTenantSchemas()
+    okapiTenantAdminService.createTenant('diku')
+    okapiTenantAdminService.freshenAllTenantSchemas()
     
     log.debug("BootStrap::init completed");
   }
