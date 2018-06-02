@@ -36,9 +36,10 @@ springBoot {
 }
 
 repositories {
-    mavenLocal()
-    maven { url "https://repo.grails.org/grails/core" }
-    maven { url "http://maven.k-int.com/content/repositories/private" }
+  mavenLocal()
+  maven { url "https://repo.grails.org/grails/core" }
+  maven { url 'http://maven.k-int.com/content/repositories/releases' }
+  maven { url 'http://maven.k-int.com/content/repositories/private' }
 }
 
 dependencies {
@@ -83,7 +84,8 @@ dependencies {
 
     // Rabbit MQ Client
     // http://budjb.github.io/grails-rabbitmq-native/3.x/latest/
-//    compile 'org.grails.plugins:rabbitmq-native:3.3.2'
+    compile 'org.grails.plugins:rabbitmq-native:3.3.2'
+
 }
 
 bootRun {
