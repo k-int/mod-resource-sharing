@@ -5,7 +5,7 @@ import com.budjb.rabbitmq.consumer.MessageContext
 class RSEventConsumer {
 
     static rabbitConfig = [
-        queue: 'RSInboundMessage.#'
+        queue: 'InboundMessageQueue'
     ]
 
     /**
