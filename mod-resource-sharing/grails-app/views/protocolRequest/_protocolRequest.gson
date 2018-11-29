@@ -5,5 +5,5 @@ import com.k_int.folio.rs.ProtocolRequest
 
 json g.render(protocolRequest, [excludes: ['owner']]) {
   "currentState" g.render(protocolRequest.currentState)
-  "service" g.render(protocolRequest.service)
+//  "service" g.render(protocolRequest.service)
 }

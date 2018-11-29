@@ -112,12 +112,12 @@ dataSource:
     username: sa
     password: ''
 
-rabbitmq:
-    connections:
-      - name: main
-        host: rabbitmq
-        username: adm
-        password: admpass
+#rabbitmq:
+#    connections:
+#      - name: main
+#        host: rabbitmq
+#        username: adm
+#        password: admpass
 #    queues:
 #      - name: testqueue
 
